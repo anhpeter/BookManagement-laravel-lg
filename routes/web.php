@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function () {
+    return View('pages/test');
+});
+
+Route::prefix('/admin')->group(function () {
+    Route::get('/', function () {
+        return view('pages/home');
+    });
+
+    Route::get('/user', function () {
+        $items = DB::table('users')->get();
+        return view('pages/user/index', ['items' => $items, 'controller' => 'user']);
+    });
+
+    Route::get('/book', function () {
+        return view('pages/book/index');
+    });
+});
+
 Route::get('/', function () {
-    return view('pages/home');
+    return redirect('/admin');
 });

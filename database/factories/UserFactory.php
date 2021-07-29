@@ -22,11 +22,21 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        //return [
+        //'name' => $this->faker->name(),
+        //'email' => $this->faker->unique()->safeEmail(),
+        //'email_verified_at' => now(),
+        //'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        //'remember_token' => Str::random(10),
+        //];
         return [
-            'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'fullname' => $this->faker->name(),
+            //'group_id' => 1,
+            'password' => $this->faker->password(), // password
+            'status' => 'active',
+            'avatar' => 'https://media-cdn.laodong.vn/storage/newsportal/2021/2/26/883735/Jennie-1-1598428156.jpg?w=414&h=276&crop=auto&scale=both',
             'remember_token' => Str::random(10),
         ];
     }

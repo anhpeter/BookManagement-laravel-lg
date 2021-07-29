@@ -38,7 +38,6 @@
     <!-- End of Page Wrapper -->
     @include('includes/footer')
 
-
     <!-- SCRIPTS -->
     @include('includes/scripts')
 </body>
