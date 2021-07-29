@@ -31,6 +31,7 @@
                     <tbody>
                         @foreach ($items as $key => $item)
                             @php
+
                                 $no = $key + 1;
                                 $status = MyHelper::getStatusHtml($controller, $item->id, $item->status);
                                 //$status = MyHelper::getStatusHtml($controller, $item->id, );
