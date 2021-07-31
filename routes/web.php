@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\checkAge;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -23,14 +25,24 @@ Route::prefix('/admin')->group(function () {
         return view('pages/home');
     });
 
-    Route::get('/user', function () {
-        $items = DB::table('users')->get();
-        return view('pages/user/index', ['items' => $items, 'controller' => 'user']);
-    });
+    Route::resource('/users', UserController::class);
+
+    //Route::get('/user', function () {
+    //$items = DB::table('users')->get();
+    //return view('pages/user/index', ['items' => $items, 'controller' => 'user']);
+    //});
 
     Route::get('/book', function () {
         return view('pages/book/index');
     });
+});
+
+Route::get('/check-age/{age?}', function () {
+    return redirect('/admin');
+})->middleware(checkAge::class);
+
+Route::get('/fail', function () {
+    return 'Fail!';
 });
 
 Route::get('/', function () {

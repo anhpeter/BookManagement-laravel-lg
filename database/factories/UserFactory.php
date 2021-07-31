@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'username' => $this->faker->userName(),
             'email' => $this->faker->unique()->safeEmail(),
             'fullname' => $this->faker->name(),
-            //'group_id' => 1,
+            'group_id' => 1,
             'password' => $this->faker->password(), // password
             'status' => 'active',
             'avatar' => 'https://media-cdn.laodong.vn/storage/newsportal/2021/2/26/883735/Jennie-1-1598428156.jpg?w=414&h=276&crop=auto&scale=both',

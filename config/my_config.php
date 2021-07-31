@@ -19,7 +19,7 @@ return [
                         'class' => 'btn btn-warning',
                     ],
                 ]
-            ]
-        ]
+            ],
+        ],
     ]
 ];

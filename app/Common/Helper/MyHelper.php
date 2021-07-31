@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 
 class MyHelper
 {
+
     public static function getStatusHtml($controller, $id, $value)
     {
         $field = 'status';

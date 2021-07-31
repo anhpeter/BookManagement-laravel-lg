@@ -22,12 +22,13 @@ class CreateUsersTable extends Migration
         //$table->rememberToken();
         //$table->timestamps();
         //});
+
         Schema::create('users', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->bigIncrements('id');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('fullname');
-            //$table->foreignId('group_id')->constrained();
+            $table->foreignId('group_id')->constraint(); //changed this line
             $table->string('password');
             $table->string('status');
             $table->String('avatar')->nullable();
