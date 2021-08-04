@@ -37,6 +37,7 @@ Route::prefix('/admin')->group(function () {
     });
 });
 
+// CHECK MIDDLEWARE
 Route::get('/check-age/{age?}', function () {
     return redirect('/admin');
 })->middleware(checkAge::class);
@@ -45,6 +46,7 @@ Route::get('/fail', function () {
     return 'Fail!';
 });
 
+// DEFAULT
 Route::get('/', function () {
     return redirect('/admin');
 });
