@@ -27,7 +27,6 @@ class BookFactory extends Factory
             'price' => $this->faker->numberBetween(50000, 300000),
             'category_id' => 1,
             'author_id' => 1,
-            'category_id' => 1,
             'status' => 'active',
             'picture' => 'https://dangchiviet.com/wp-content/uploads/2019/07/review-sach-nha-gia-kim.jpg',
             'short_description' => $this->faker->text(150),

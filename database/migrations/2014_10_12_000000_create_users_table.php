@@ -27,13 +27,9 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('fullname');
             $table->foreignId('group_id')->constraint(); //changed this line
-            $table->string('password');
             $table->string('status');
-            $table->String('avatar')->nullable();
-            $table->String('phone')->nullable();
-            $table->String('address')->nullable();
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

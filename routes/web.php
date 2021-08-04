@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\checkAge;
 use Illuminate\Support\Facades\DB;
@@ -27,10 +28,9 @@ Route::prefix('/admin')->group(function () {
 
     Route::resource('/users', UserController::class);
 
-    //Route::get('/user', function () {
-    //$items = DB::table('users')->get();
-    //return view('pages/user/index', ['items' => $items, 'controller' => 'user']);
-    //});
+    Route::resource('/profiles', ProfileController::class)->except(['index']);
+
+    Route::get('/profiles/{userId}/create', [ProfileController::class, 'createProfile'])->name('create-profile');
 
     Route::get('/book', function () {
         return view('pages/book/index');

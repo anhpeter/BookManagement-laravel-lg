@@ -1,0 +1,37 @@
+@extends('layouts/app1')
+@section('content')
+    <!-- Page Heading -->
+    @include('partials/page_heading', [
+    'title'=>'Form',
+    'color'=>'dark',
+    'btnIcon'=>'fa-back',
+    'btnContent'=>'Back',
+    'btnLink'=> route('users.index'),
+    ])
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow-mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Account</h6>
+                </div>
+                <div class="card-body">
+                    @include('pages/user/single-form', [ 'item'=>$user ])
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            <div class="card shadow-mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Personal infomation</h6>
+                </div>
+                <div class="card-body">
+                    @include('pages/profile/single-form', [ 'item'=>$item ])
+                </div>
+            </div>
+
+        </div>
+    </div>
+@endsection

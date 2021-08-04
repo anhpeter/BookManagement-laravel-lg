@@ -14,7 +14,12 @@
 }
 
 .action-container {
+    display: flex;
     min-width: 95px;
+}
+
+.action-container>* {
+    margin-right: 8px;
 }
 
 .dashboard-card:hover {
@@ -34,4 +39,35 @@
 
 .flex-1 {
     flex: 1;
+}
+
+
+/* profile detail */
+
+.data-box,
+.data-row {
+    display: flex;
+}
+
+.data-box {
+    flex-direction: column;
+}
+
+.data-box>.data-row {
+    margin: 8px 0px;
+}
+
+.data-box>.data-row>span.label {
+    font-weight: bold;
+    min-width: 100px;
+}
+
+.data-box>.data-row>div.value {
+    flex: 1;
+}
+
+@media screen and (max-width: 992px) {
+    .data-box>.data-row {
+        flex-direction: column;
+    }
 }

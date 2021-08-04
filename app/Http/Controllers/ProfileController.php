@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use PhpParser\Node\Expr\Cast\Array_;
 
-class UserController extends BaseController
+class ProfileController extends BaseController
 {
 
     function __construct()
     {
-        parent::__construct('user');
+        parent::__construct('profile');
     }
     /**
      * Display a listing of the resource.
@@ -22,8 +24,6 @@ class UserController extends BaseController
     public function index()
     {
         //
-        $items = DB::table(parent::getTableName())->get();
-        return view('pages/' . $this->controller . '/index', ['items' => $items, 'controller' => $this->controller]);
     }
 
     /**
@@ -31,10 +31,25 @@ class UserController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        $item = new User();
-        return view('pages/' . $this->controller . '/form', ['formType' => 'add', 'item' => $item]);
+        echo $id;
+        //$item = new Profile();
+        //return view('pages/' . $this->controller . '/form', ['formType' => 'add', 'item' => $item]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createProfile($userId)
+    {
+        if (session('status') === 'success') {
+            return redirect(route('profiles.show', ['profile' => $userId]));
+        }
+        $item = new Profile();
+        return view('pages/' . $this->controller . '/form', ['formType' => 'add', 'item' => $item, 'userId' => $userId]);
     }
 
     /**
@@ -46,11 +61,10 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $item = [
-            'username' => $request->input('username'),
-            'email' => $request->input('email'),
-            'group_id' => $request->input('group_id'),
-            'password' => $request->input('password'),
-            'status' => $request->input('status'),
+            'user_id' => $request->input('userId'),
+            'fullname' => $request->input('fullname'),
+            'address' => $request->input('address'),
+            'phone' => $request->input('phone'),
         ];
         $affected = DB::table(parent::getTableName())->insert($item);
         if ($affected == 1) return Redirect()->back()->with(['status' => 'success']);
@@ -68,6 +82,9 @@ class UserController extends BaseController
     public function show($id)
     {
         //
+        $item = DB::table(parent::getTableName())->where('user_id', '=', $id)->first();
+        $user = DB::table('users')->find($id);
+        return view('pages/' . $this->controller . '/show', ['item' => $item, 'user' => $user]);
     }
 
     /**
@@ -78,8 +95,12 @@ class UserController extends BaseController
      */
     public function edit($id)
     {
-        $item = DB::table(parent::getTableName())->find($id);
-        return view('pages/' . $this->controller . '/form', ['formType' => 'edit', 'item' => $item]);
+        if (session('status') === 'success') {
+            return redirect(route('profiles.show', ['profile' => $id]));
+        }
+        $item = DB::table(parent::getTableName())->where('user_id', '=', $id)->first();
+        $user = DB::table('users')->find($id);
+        return view('pages/' . $this->controller . '/combine-form', ['formType' => 'edit', 'item' => $item, 'user' => $user]);
     }
 
     /**
@@ -92,11 +113,11 @@ class UserController extends BaseController
     public function update(Request $request, $id)
     {
         $item = [
-            'username' => $request->input('username'),
-            'email' => $request->input('email'),
-            'status' => $request->input('status'),
+            'fullname' => $request->input('fullname'),
+            'address' => $request->input('address'),
+            'phone' => $request->input('phone'),
         ];
-        $affected = DB::table(parent::getTableName())->where('id', $id)->update($item);
+        $affected = DB::table(parent::getTableName())->where('user_id', $id)->update($item);
         if ($affected == 1) return Redirect()->back()->with(['status' => 'success']);
         else return redirect()->back()->with(['status' => 'fail'])
             ->withErrors(['save', 'Failed to save'])
@@ -111,8 +132,6 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
-        DB::table('profiles')->where('user_id', $id)->delete();
-        DB::table(parent::getTableName())->delete($id);
-        return Redirect(route(parent::getTableName() . '.index'));
+        //
     }
 }

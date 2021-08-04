@@ -18,7 +18,7 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->decimal('price');
-            $table->foreignId('author_id')->constrained('users');
+            $table->foreignId('author_id')->nullable()->constrained('users');
             $table->foreignId('category_id')->constrained();
             $table->string('status');
             $table->string('picture')->nullable();
