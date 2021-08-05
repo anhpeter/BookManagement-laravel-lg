@@ -4,9 +4,9 @@
     @include('partials/page_heading', [
     'title'=>'Form',
     'color'=>'dark',
-    'btnIcon'=>'fa-back',
+    'btnIcon'=>'fa-arrow-left',
     'btnContent'=>'Back',
-    'btnLink'=> route('users.index'),
+    'btnLink'=> route('profiles.show', ['profile'=>$user->id]),
     ])
 
     <div class="row">
@@ -16,7 +16,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Account</h6>
                 </div>
                 <div class="card-body">
-                    @include('pages/user/single-form', [ 'item'=>$user ])
+                    @include('pages/user/single_form', [ 'item'=>$user ])
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Personal infomation</h6>
                 </div>
                 <div class="card-body">
-                    @include('pages/profile/single-form', [ 'item'=>$item ])
+                    @include('pages/profile/single_form', [ 'item'=>$item ])
                 </div>
             </div>
 

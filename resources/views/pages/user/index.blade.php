@@ -34,8 +34,7 @@
                             @php
                                 
                                 $no = $key + 1;
-                                $status = MyHelper::getStatusHtml($controller, $item->id, $item->status);
-                                //$status = MyHelper::getStatusHtml($controller, $item->id, );
+                                $status = ViewHelper::getStatusHtml($controller, $item->id, $item->status);
                             @endphp
                             <tr>
                                 <th scope="row">{{ $no }}</th>
@@ -54,7 +53,7 @@
                                             class="btn btn-success btn-sm" title="Edit">
                                             <i class="fas fa-edit fa-fw"></i>
                                         </a>
-                                        <form action="{{ route('users.destroy', ['user' => $item->id]) }}" method="post">
+                                        <form class="delete-item-form" action="{{ route('users.destroy', ['user' => $item->id]) }}" method="post" data-item-name="{{ $item->username }}">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip"
@@ -73,4 +72,6 @@
             </div>
         </div>
     </div>
+
+    @include('partials/delete_item_modal')
 @endsection

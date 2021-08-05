@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\Cast\Array_;
 
 class ProfileController extends BaseController
@@ -45,11 +46,15 @@ class ProfileController extends BaseController
      */
     public function createProfile($userId)
     {
-        if (session('status') === 'success') {
-            return redirect(route('profiles.show', ['profile' => $userId]));
-        }
+        if (parent::isSaveSuccess())  return redirect(route('profiles.show', ['profile' => $userId]));
         $item = new Profile();
-        return view('pages/' . $this->controller . '/form', ['formType' => 'add', 'item' => $item, 'userId' => $userId]);
+        return view(
+            'pages/' . $this->controller . '/form',
+            array_merge(
+                parent::getViewParams(),
+                ['formType' => 'add', 'item' => $item, 'userId' => $userId]
+            )
+        );
     }
 
     /**
@@ -60,17 +65,14 @@ class ProfileController extends BaseController
      */
     public function store(Request $request)
     {
-        $item = [
-            'user_id' => $request->input('userId'),
-            'fullname' => $request->input('fullname'),
-            'address' => $request->input('address'),
-            'phone' => $request->input('phone'),
-        ];
+        $this->runValidate($request)->validate();
+        print("<pre>" .
+            print_r($request->all(), true)
+            . "</pre>");
+        $item = $this->getItemFromRequest($request);
+        $item['user_id'] =$request->input('userId');
         $affected = DB::table(parent::getTableName())->insert($item);
-        if ($affected == 1) return Redirect()->back()->with(['status' => 'success']);
-        else return redirect()->back()->with(['status' => 'fail'])
-            ->withErrors(['save', 'Failed to save'])
-            ->withInput();
+        return parent::handleSaveResult($affected);
     }
 
     /**
@@ -95,12 +97,17 @@ class ProfileController extends BaseController
      */
     public function edit($id)
     {
-        if (session('status') === 'success') {
-            return redirect(route('profiles.show', ['profile' => $id]));
-        }
+        if (parent::isSaveSuccess())  return redirect(route('profiles.show', ['profile' => $id]));
         $item = DB::table(parent::getTableName())->where('user_id', '=', $id)->first();
         $user = DB::table('users')->find($id);
-        return view('pages/' . $this->controller . '/combine-form', ['formType' => 'edit', 'item' => $item, 'user' => $user]);
+        return view(
+            'pages/' . $this->controller . '/combine-form',
+            array_merge(
+                parent::getViewParams(),
+                ['formType' => 'edit', 'item' => $item, 'user' => $user]
+            )
+
+        );
     }
 
     /**
@@ -112,16 +119,10 @@ class ProfileController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $item = [
-            'fullname' => $request->input('fullname'),
-            'address' => $request->input('address'),
-            'phone' => $request->input('phone'),
-        ];
+        $this->runValidate($request, $id)->validate();
+        $item = $this->getItemFromRequest($request);
         $affected = DB::table(parent::getTableName())->where('user_id', $id)->update($item);
-        if ($affected == 1) return Redirect()->back()->with(['status' => 'success']);
-        else return redirect()->back()->with(['status' => 'fail'])
-            ->withErrors(['save', 'Failed to save'])
-            ->withInput();
+        return parent::handleSaveResult($affected);
     }
 
     /**
@@ -133,5 +134,29 @@ class ProfileController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    // GET ITEM
+    public function getItemFromRequest(Request $request)
+    {
+        $item = [
+            'fullname' => $request->input('fullname'),
+            'address' => $request->input('address'),
+            'phone' => $request->input('phone'),
+        ];
+        return $item;
+    }
+
+    // VALIDATES
+    public function runValidate(Request $request, $id = null)
+    {
+        // rules
+        $rules = [
+            'fullname' => 'bail|required|',
+            'phone' => 'bail|required|regex:/^\d{10}$/',
+            'address' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        return $validator;
     }
 }

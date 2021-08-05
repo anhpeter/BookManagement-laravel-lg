@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
@@ -34,7 +35,13 @@ class UserController extends BaseController
     public function create()
     {
         $item = new User();
-        return view('pages/' . $this->controller . '/form', ['formType' => 'add', 'item' => $item]);
+        return view(
+            'pages/' . $this->controller . '/form',
+            array_merge(
+                parent::getViewParams(),
+                ['formType' => 'add', 'item' => $item]
+            )
+        );
     }
 
     /**
@@ -45,18 +52,10 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-        $item = [
-            'username' => $request->input('username'),
-            'email' => $request->input('email'),
-            'group_id' => $request->input('group_id'),
-            'password' => $request->input('password'),
-            'status' => $request->input('status'),
-        ];
+        $this->runValidate($request)->validate();
+        $item = $this->getItemFromRequest($request);
         $affected = DB::table(parent::getTableName())->insert($item);
-        if ($affected == 1) return Redirect()->back()->with(['status' => 'success']);
-        else return redirect()->back()->with(['status' => 'fail'])
-            ->withErrors(['save', 'Failed to save'])
-            ->withInput();
+        return parent::handleSaveResult($affected);
     }
 
     /**
@@ -79,7 +78,13 @@ class UserController extends BaseController
     public function edit($id)
     {
         $item = DB::table(parent::getTableName())->find($id);
-        return view('pages/' . $this->controller . '/form', ['formType' => 'edit', 'item' => $item]);
+        return view(
+            'pages/' . $this->controller . '/form',
+            array_merge(
+                parent::getViewParams(),
+                ['formType' => 'edit', 'item' => $item]
+            )
+        );
     }
 
     /**
@@ -91,16 +96,10 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $item = [
-            'username' => $request->input('username'),
-            'email' => $request->input('email'),
-            'status' => $request->input('status'),
-        ];
+        $this->runValidate($request, $id)->validate();
+        $item = $this->getItemFromRequest($request);
         $affected = DB::table(parent::getTableName())->where('id', $id)->update($item);
-        if ($affected == 1) return Redirect()->back()->with(['status' => 'success']);
-        else return redirect()->back()->with(['status' => 'fail'])
-            ->withErrors(['save', 'Failed to save'])
-            ->withInput();
+        return parent::handleSaveResult($affected);
     }
 
     /**
@@ -113,6 +112,46 @@ class UserController extends BaseController
     {
         DB::table('profiles')->where('user_id', $id)->delete();
         DB::table(parent::getTableName())->delete($id);
-        return Redirect(route(parent::getTableName() . '.index'));
+        return Redirect(route(parent::getTableName() . '.index'))->with(['message' => 'Item deleted successfully!']);
+    }
+
+    // GET ITEM
+    public function getItemFromRequest(Request $request)
+    {
+        $item = [
+            'username' => $request->input('username'),
+            'email' => $request->input('email'),
+            'group_id' => $request->input('group_id'),
+            'status' => $request->input('status'),
+        ];
+        if ($request->input('password')) $item['password'] = $request->input('password');
+        return $item;
+    }
+
+    // VALIDATES
+    public function runValidate(Request $request, $id = null)
+    {
+        // unique
+        $uniqueUsername = sprintf('|unique:%s,%s', parent::getTableName(), 'username');
+        $uniqueEmail = sprintf('|unique:%s,%s', parent::getTableName(), 'email');
+        if ($id != null) {
+            $uniqueUsername = $uniqueUsername . ',' . $id;
+            $uniqueEmail = $uniqueEmail . ',' . $id;
+        }
+
+        // rules
+        $rules = [
+            'username' => 'bail|required|between:4,16|regex:/^[a-zA-Z0-9]{4,16}$/' . $uniqueUsername,
+            'email' => 'bail|required|email' . $uniqueEmail,
+            'status' => 'required',
+            'group_id' => 'required',
+        ];
+
+        // password
+        $password = $request->input('password');
+        if ($password || $id == null)
+            $rules['password'] = 'bail|required|between:4,16|regex:/^[a-zA-Z0-9]{4,16}$/';
+        $validator = Validator::make($request->all(), $rules);
+        return $validator;
     }
 }

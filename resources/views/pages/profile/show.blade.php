@@ -35,6 +35,12 @@
                             <span class="label">Group</span>
                             <div class="value">Admin</div>
                         </div>
+                        <div class="data-row">
+                            <span class="label">Status</span>
+                            <div class="value">
+                                <h5> {!! ViewHelper::getStatusBadgeHtml($user->status) !!} </h5>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

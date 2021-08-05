@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="offset-lg-3 col-lg-6 form-wrapper">
-            @include('pages/profile/single-form')
+            @include('pages/profile/single_form')
         </div>
     </div>
 

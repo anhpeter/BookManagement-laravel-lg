@@ -10,7 +10,7 @@ $btnLink = $btnLink ?? '#';
     @if ($btnIcon !== '' || $btnContent !== '')
         <a href="{{ $btnLink }}" class="d-none d-sm-inline-block btn btn-sm btn-{{ $color }} shadow-sm">
             @if ($btnIcon !== '')
-                <i class="fas {{ $btnIcon }} fa-sm text-white-50"></i>
+                <i class="fas {{ $btnIcon }} fa-sm  fw"></i>
             @endif
             {{ $btnContent }}
         </a>
