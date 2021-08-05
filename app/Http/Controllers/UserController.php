@@ -119,17 +119,13 @@ class UserController extends BaseController
     public function destroy($id)
     {
         $profile = DB::table('profiles')->where('user_id', $id)->first();
-        if ($profile->avatar) {
-            $path = '/img/profile/avatar/' . $profile->avatar;
-            if (Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
+        if ($profile != null) {
+            if ($profile->avatar) {
+                $path = '/img/profile/avatar/' . $profile->avatar;
+                if (Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->delete($path);
+                }
             }
-            //echo 'delete success';
-            //return;
-            //} else {
-            //echo 'not found';
-            //return;
-            //}
         }
 
         DB::table('profiles')->where('user_id', $id)->delete();
