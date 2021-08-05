@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Helper\ViewHelper;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\Cast\Array_;
 
@@ -66,11 +69,9 @@ class ProfileController extends BaseController
     public function store(Request $request)
     {
         $this->runValidate($request)->validate();
-        print("<pre>" .
-            print_r($request->all(), true)
-            . "</pre>");
         $item = $this->getItemFromRequest($request);
-        $item['user_id'] =$request->input('userId');
+        $item['user_id'] = $request->input('userId');
+        $item = $this->handlePicture($item, $request->input('avatar'));
         $affected = DB::table(parent::getTableName())->insert($item);
         return parent::handleSaveResult($affected);
     }
@@ -119,11 +120,57 @@ class ProfileController extends BaseController
      */
     public function update(Request $request, $id)
     {
+        //echo __METHOD__;
+        //print("<pre>" .
+            //print_r($request->all(), true)
+            //. "</pre>");
+        //return;
         $this->runValidate($request, $id)->validate();
         $item = $this->getItemFromRequest($request);
+        $item = $this->handlePicture($item, $request->input('avatar'), $request->input('current_avatar'));
         $affected = DB::table(parent::getTableName())->where('user_id', $id)->update($item);
         return parent::handleSaveResult($affected);
     }
+
+    public function handlePicture($item, $base64, $currentPicture = null)
+    {
+        $newAvatar = $base64;
+        if ($newAvatar) {
+            $avatarFileName = $this->uploadPicture($newAvatar, $currentPicture);
+            if ($avatarFileName != null) {
+                $item['avatar'] = $avatarFileName;
+            }
+        }
+        return $item;
+    }
+
+
+    public function uploadPicture($base64, $currentPicture = null)
+    {
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+            $data = substr($base64, strpos($base64, ',') + 1);
+            $data = base64_decode($data);
+            $arr = range('0', '9');
+            shuffle($arr);
+            $filename = join('', $arr) . '.jpg';
+            Storage::disk('public')->put($this->getAvatarPath($filename), $data);
+
+            // delete if exist
+            if ($currentPicture) {
+                if (Storage::disk('public')->exists($this->getAvatarPath($currentPicture))) {
+                    Storage::disk('public')->delete($this->getAvatarPath($currentPicture));
+                }
+            }
+            return $filename;
+        }
+        return null;
+    }
+
+    public static function getAvatarPath($filename)
+    {
+        return  '/img/profile/avatar/' . $filename;
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -143,6 +190,7 @@ class ProfileController extends BaseController
             'fullname' => $request->input('fullname'),
             'address' => $request->input('address'),
             'phone' => $request->input('phone'),
+            'birthday' => $request->input('birthday'),
         ];
         return $item;
     }
@@ -153,8 +201,9 @@ class ProfileController extends BaseController
         // rules
         $rules = [
             'fullname' => 'bail|required|',
-            'phone' => 'bail|required|regex:/^\d{10}$/',
-            'address' => 'required',
+            'phone' => 'nullable|digits:10',
+            'address' => '',
+            'birthday' => '',
         ];
         $validator = Validator::make($request->all(), $rules);
         return $validator;

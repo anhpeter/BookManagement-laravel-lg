@@ -36,4 +36,9 @@ class MyConfig
     {
         return self::getConfig()['form']['submit-container'];
     }
+
+    public static function getPath(){
+        
+        return self::getConfig()['path'];
+    }
 }

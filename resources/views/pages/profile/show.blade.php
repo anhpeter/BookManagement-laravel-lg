@@ -4,10 +4,12 @@
         <div class="card-header py-3 d-flex justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Infomation</h6>
             <div>
-                <a href="{{ route('profiles.edit', ['profile' => $user->id]) }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-edit fa-fw"></i>
-                    <span>Edit</span>
-                </a>
+                @if ($item != null)
+                    <a href="{{ route('profiles.edit', ['profile' => $user->id]) }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-edit fa-fw"></i>
+                        <span>Edit</span>
+                    </a>
+                @endif
                 <a href="{{ route('users.index') }}" class="btn btn-dark btn-sm">
                     <i class="fas fa-arrow-left fa-fw"></i>
                     <span>Back</span>
@@ -23,24 +25,10 @@
                         <hr>
                     </div>
                     <div class="data-box">
-                        <div class="data-row">
-                            <span class="label">Username</span>
-                            <div class="value">{{ $user->username }}</div>
-                        </div>
-                        <div class="data-row">
-                            <span class="label">Email</span>
-                            <div class="value">{{ $user->email }}</div>
-                        </div>
-                        <div class="data-row">
-                            <span class="label">Group</span>
-                            <div class="value">Admin</div>
-                        </div>
-                        <div class="data-row">
-                            <span class="label">Status</span>
-                            <div class="value">
-                                <h5> {!! ViewHelper::getStatusBadgeHtml($user->status) !!} </h5>
-                            </div>
-                        </div>
+                        {!! ViewHelper::getInfoDataRow('Username', $user->username) !!}
+                        {!! ViewHelper::getInfoDataRow('Email', $user->email) !!}
+                        {!! ViewHelper::getInfoDataRow('Group', 'Admin') !!}
+                        {!! ViewHelper::getInfoDataRow('Status', sprintf('<h5>%s</h5>', ViewHelper::getStatusBadgeHtml($user->status))) !!}
                     </div>
                 </div>
 
@@ -51,18 +39,17 @@
                         <hr class="divider">
                     </div>
                     @if ($item != null)
-                        <div class="data-box">
-                            <div class="data-row">
-                                <span class="label">Full name</span>
-                                <div class="value">{{ $item->fullname }}</div>
-                            </div>
-                            <div class="data-row">
-                                <span class="label">Address</span>
-                                <div class="value">{{ $item->address }}</div>
-                            </div>
-                            <div class="data-row">
-                                <span class="label">Phone</span>
-                                <div class="value">{{ $item->phone }}</div>
+                        <div class="d-flex align-items-lg-center justify-content-between justify-content-md-start">
+                            @if ($item->avatar)
+                                <div class="circle-picture order-1 order-md-0">
+                                    <img src="{{ ViewHelper::getAvatarPath($item->avatar) }}" class="img-fluid " />
+                                </div>
+                            @endif
+                            <div class="data-box ml-3 order-0 order-md-1 ">
+                                {!! ViewHelper::getInfoDataRow('Full name', $item->fullname) !!}
+                                {!! ViewHelper::getInfoDataRow('Address', $item->address) !!}
+                                {!! ViewHelper::getInfoDataRow('Phone', $item->phone) !!}
+                                {!! ViewHelper::getInfoDataRow('Birthday', $item->birthday) !!}
                             </div>
                         </div>
                     @else

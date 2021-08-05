@@ -4,7 +4,8 @@ return [
         'admin' => 'admin',
     ],
     'path' => [
-        'assets' => '/assets'
+        'assets'    => '/assets',
+        'storage'   => '/storage'
     ],
     'template' => [
         'filter' => [

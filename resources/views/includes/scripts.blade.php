@@ -11,4 +11,6 @@
 <!-- Page level plugins -->
 
 <!-- Page level custom scripts -->
+<script src="{{ asset('assets/vendor/cropper/cropper.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/cropper/jquery-cropper.min.js') }}"></script>
 <script src="{{ asset('assets/js/my-js.js') }}"></script>

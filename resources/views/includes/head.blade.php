@@ -15,5 +15,5 @@
 
 <!-- Custom styles for this template-->
 <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/vendor/cropper/cropper.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/css/profile.css') }}" rel="stylesheet">

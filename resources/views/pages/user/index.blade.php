@@ -23,14 +23,14 @@
                             <th>Username</th>
                             <th>Email</th>
                             <!--
-                                                                                                                                                                            <th>Group</th>
-                                                                                                                                                                            -->
+                                                                                                                                                                                    <th>Group</th>
+                                                                                                                                                                                    -->
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($items as $key => $item)
+                        @forelse ($items as $key => $item)
                             @php
                                 
                                 $no = $key + 1;
@@ -53,7 +53,9 @@
                                             class="btn btn-success btn-sm" title="Edit">
                                             <i class="fas fa-edit fa-fw"></i>
                                         </a>
-                                        <form class="delete-item-form" action="{{ route('users.destroy', ['user' => $item->id]) }}" method="post" data-item-name="{{ $item->username }}">
+                                        <form class="delete-item-form"
+                                            action="{{ route('users.destroy', ['user' => $item->id]) }}" method="post"
+                                            data-item-name="{{ $item->username }}">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip"
@@ -64,7 +66,15 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="1000">
+                                    <div class="alert alert-primary" role="alert">
+                                        No items for display!
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
 
                     </tbody>
                 </table>

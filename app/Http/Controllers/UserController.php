@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
@@ -23,7 +24,7 @@ class UserController extends BaseController
     public function index()
     {
         //
-        $items = DB::table(parent::getTableName())->get();
+        $items = DB::table(parent::getTableName())->orderBy('created_at')->get();
         return view('pages/' . $this->controller . '/index', ['items' => $items, 'controller' => $this->controller]);
     }
 
@@ -96,6 +97,11 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
+        //echo __METHOD__;
+        //print("<pre>" .
+            //print_r($request->all(), true)
+            //. "</pre>");
+        //return;
         $this->runValidate($request, $id)->validate();
         $item = $this->getItemFromRequest($request);
         $affected = DB::table(parent::getTableName())->where('id', $id)->update($item);
@@ -110,6 +116,20 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
+        $profile = DB::table('profiles')->where('user_id', $id)->first();
+        if ($profile->avatar) {
+            $path = '/img/profile/avatar/' . $profile->avatar;
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+            //echo 'delete success';
+            //return;
+            //} else {
+            //echo 'not found';
+            //return;
+            //}
+        }
+
         DB::table('profiles')->where('user_id', $id)->delete();
         DB::table(parent::getTableName())->delete($id);
         return Redirect(route(parent::getTableName() . '.index'))->with(['message' => 'Item deleted successfully!']);
