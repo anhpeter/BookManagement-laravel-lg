@@ -120,12 +120,14 @@ class ProfileController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //echo __METHOD__;
-        //print("<pre>" .
-            //print_r($request->all(), true)
-            //. "</pre>");
-        //return;
-        $this->runValidate($request, $id)->validate();
+        $validator = $this->runValidate($request, $id);
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with(['formFor' => 'profile'])
+                ->withErrors($validator)
+                ->withInput();
+        }
         $item = $this->getItemFromRequest($request);
         $item = $this->handlePicture($item, $request->input('avatar'), $request->input('current_avatar'));
         $affected = DB::table(parent::getTableName())->where('user_id', $id)->update($item);

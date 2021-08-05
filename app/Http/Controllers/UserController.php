@@ -97,12 +97,14 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //echo __METHOD__;
-        //print("<pre>" .
-            //print_r($request->all(), true)
-            //. "</pre>");
-        //return;
-        $this->runValidate($request, $id)->validate();
+        $validator = $this->runValidate($request, $id);
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with(['formFor' => 'user'])
+                ->withErrors($validator)
+                ->withInput();
+        }
         $item = $this->getItemFromRequest($request);
         $affected = DB::table(parent::getTableName())->where('id', $id)->update($item);
         return parent::handleSaveResult($affected);

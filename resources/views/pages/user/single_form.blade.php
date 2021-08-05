@@ -23,7 +23,7 @@ $groupSelectItems = [
 <form action="{{ $formAction }}" method="post">
     {{ csrf_field() }}
     {{ method_field($formMethod) }}
-    {!! Form::hidden('formFor_user') !!}
+
     <div class="form-group row">
         {!! Form::label('username', 'Username', ['class' => MyConfig::getFormLabelClass()]) !!}
         <div class="{{ MyConfig::getFormInputContainerClass() }}">

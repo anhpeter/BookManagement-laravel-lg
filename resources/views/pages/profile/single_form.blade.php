@@ -15,6 +15,11 @@ if ($formType === 'edit') {
     {{ method_field($formMethod) }}
     {!! Form::hidden('formFor_profile') !!}
     {!! Form::hidden('current_avatar', $item->avatar) !!}
+
+    <!-- FORM FOR -->
+    {!! Form::hidden('formFor', 'profile') !!}
+    <!-- FORM FOR -->
+
     @if (isset($userId))
         {!! Form::hidden('userId', $userId) !!}
     @endif
