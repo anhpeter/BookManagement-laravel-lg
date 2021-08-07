@@ -17,9 +17,6 @@
                             <th scope="col">#</th>
                             <th>Username</th>
                             <th>Email</th>
-                            <!--
-                                                                                                                                                                                            <th>Group</th>
-                                                                                                                                                                                            -->
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -29,7 +26,6 @@
                             @php
                                 
                                 $no = $key + 1;
-                                $status = ViewHelper::getStatusHtml($controller, $item->id, $item->status);
                             @endphp
                             <tr>
                                 <th scope="row">{{ $no }}</th>
@@ -37,28 +33,12 @@
                                     {{ $item->username }}
                                 </td>
                                 <td>{{ $item->email }}</td>
-                                <td>{!! $status !!}</td>
                                 <td>
-                                    <div class="action-container">
-                                        <a href="{{ route('profiles.show', ['profile' => $item->id]) }}"
-                                            class="btn btn-info btn-sm" data-toggle="tooltip" title="View profile">
-                                            <i class="fas fa-info fa-fw"></i>
-                                        </a>
-                                        <a href="{{ route('users.edit', ['user' => $item->id]) }}" data-toggle="tooltip"
-                                            class="btn btn-success btn-sm" title="Edit">
-                                            <i class="fas fa-edit fa-fw"></i>
-                                        </a>
-                                        <form class="delete-item-form"
-                                            action="{{ route('users.destroy', ['user' => $item->id]) }}" method="post"
-                                            data-item-name="{{ $item->username }}">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip"
-                                                title="delete">
-                                                <i class="fas fa-trash-alt fa-fw"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <x-status :controller="$controller" :id="$item->id" :value="$item->status"></x-status>
+                                </td>
+                                <td>
+                                    <x-item-action-bar :controller="$controller" :id="$item->id" :name="$item->username">
+                                    </x-item-action-bar>
                                 </td>
                             </tr>
                         @empty
@@ -70,7 +50,6 @@
                                 </td>
                             </tr>
                         @endforelse
-
                     </tbody>
                 </table>
 

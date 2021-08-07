@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 abstract class BaseController extends Controller
 {
@@ -26,11 +24,12 @@ abstract class BaseController extends Controller
 
     protected function handleSaveResult($affected)
     {
-        if ($affected == 1) return Redirect()->back()->with(['message' => 'Save successfully!', 'status' => 'success']);
+        if ($affected >0) return Redirect()->back()->with(['message' => 'Save successfully!', 'status' => 'success']);
         else return redirect()->back()->with(['message' => 'No thing to change!'])->withInput();
     }
 
-    protected function isSaveSuccess(){
+    protected function isSaveSuccess()
+    {
         return session('status') === 'success';
     }
 }

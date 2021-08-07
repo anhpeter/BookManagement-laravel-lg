@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Helper\MyHelper;
 use App\Common\Helper\ViewHelper;
 use App\Models\Profile;
 use App\Models\User;
@@ -136,9 +137,8 @@ class ProfileController extends BaseController
 
     public function handlePicture($item, $base64, $currentPicture = null)
     {
-        $newAvatar = $base64;
-        if ($newAvatar) {
-            $avatarFileName = $this->uploadPicture($newAvatar, $currentPicture);
+        if (MyHelper::isBase64($base64)) {
+            $avatarFileName = $this->uploadPicture($base64, $currentPicture);
             if ($avatarFileName != null) {
                 $item['avatar'] = $avatarFileName;
             }
@@ -149,7 +149,7 @@ class ProfileController extends BaseController
 
     public function uploadPicture($base64, $currentPicture = null)
     {
-        if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+        if (MyHelper::isBase64($base64)) {
             $data = substr($base64, strpos($base64, ',') + 1);
             $data = base64_decode($data);
             $arr = range('0', '9');

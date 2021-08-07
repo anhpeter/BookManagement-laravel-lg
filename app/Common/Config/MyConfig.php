@@ -17,28 +17,18 @@ class MyConfig
         return self::getConfig()['template'];
     }
 
-    public static function getFormLabelClass()
+    public static function getPath()
     {
-        return self::getConfig()['form']['label'];
-    }
 
-    public static function getFormInputClass($type)
-    {
-        return self::getConfig()['form']['input'][$type];
-    }
-
-    public static function getFormInputContainerClass()
-    {
-        return self::getConfig()['form']['input-container'];
-    }
-
-    public static function getSubmitContainerClass()
-    {
-        return self::getConfig()['form']['submit-container'];
-    }
-
-    public static function getPath(){
-        
         return self::getConfig()['path'];
+    }
+
+    public static function getItemTemplateForController($controller, $itemName)
+    {
+        $itemNames = self::getConfig()['controller'][$controller]['action'];
+        $itemNamesFlip = array_flip($itemNames);
+        $template = self::getTemplate()[$itemName];
+        $result = array_intersect_key($template, $itemNamesFlip);
+        return $result;
     }
 }

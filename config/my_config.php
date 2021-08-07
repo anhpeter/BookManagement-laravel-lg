@@ -8,29 +8,41 @@ return [
         'storage'   => '/storage'
     ],
     'template' => [
-        'filter' => [
-            'status' => [
-                'active' => [
-                    'content' => 'Active',
-                    'class' => 'btn btn-success',
-                ],
-                'inactive' => [
-                    'content' => 'In Active',
-                    'class' => 'btn btn-warning',
-                ],
-            ]
+        'status' => [
+            'active' => [
+                'content' => 'Active',
+                'class' => 'btn btn-success',
+            ],
+            'inactive' => [
+                'content' => 'In Active',
+                'class' => 'btn btn-warning',
+            ],
         ],
-        'select' => [
-            'status' => ['active', 'inactive'],
-        ]
+        'action' => [
+            'view' => [
+                'icon' => 'fas fa-info fa-fw',
+                'class' => 'btn btn-info btn-sm',
+                'route' => 'show',
+                'content' => 'View',
+            ],
+            'edit' => [
+                'icon' => 'fas fa-edit fa-fw',
+                'class' => 'btn btn-success btn-sm',
+                'route' => 'edit',
+                'content' => 'Edit',
+            ],
+            'delete' => [
+                'icon' => 'fas fa-trash-alt fa-fw',
+                'class' => 'btn btn-danger btn-sm',
+                'route' => 'delete',
+                'content' => 'Delete',
+            ],
+        ],
     ],
-    'form' => [
-        'label'             => 'col-lg-2 col-form-label',
-        'input-container'   => 'col-lg-10',
-        'submit-container'  => 'offset-lg-2 d-flex justify-content-end col-md-10',
-        'input'     => [
-            'text'      => 'form-control',
-            'select'    => 'custom-select'
-        ]
-    ]
+    'controller' => [
+        'user' => [
+            'status' => ['active', 'inactive'],
+            'action' => ['view', 'edit', 'delete'],
+        ],
+    ],
 ];

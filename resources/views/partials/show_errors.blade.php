@@ -1,7 +1,6 @@
 @php
-$formFor = $formFor ?? $controller;
 @endphp
-@if (Session::get('formFor', $controller) == $formFor && $errors->any())
+@if (Session::get('formFor', $formFor) == $formFor && $errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
