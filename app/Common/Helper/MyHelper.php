@@ -15,4 +15,9 @@ class MyHelper
     {
         return preg_match('/^data:image\/(\w+);base64,/', $str);
     }
+
+    public static function convertStdClassToArray($item)
+    {
+        return json_decode(json_encode($item), true);
+    }
 }
