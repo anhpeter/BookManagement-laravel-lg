@@ -2,7 +2,9 @@
 
 @section('content')
     <!-- Page Heading -->
-    @include('partials/page_heading', ['title'=>'Dashboard'])
+    <x-page-heading title="Dashboard"></x-page-heading>
+
+    <x-alert  type="success" message="This is message called from Dashboard page."></x-alert>
 
     <!-- Content Row -->
     <div class="row">

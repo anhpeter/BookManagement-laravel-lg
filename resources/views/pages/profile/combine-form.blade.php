@@ -1,13 +1,8 @@
 @extends('layouts/app1')
 @section('content')
     <!-- Page Heading -->
-    @include('partials/page_heading', [
-    'title'=>'Form',
-    'color'=>'dark',
-    'btnIcon'=>'fa-arrow-left',
-    'btnContent'=>'Back',
-    'btnLink'=> route('profiles.show', ['profile'=>$user->id]),
-    ])
+    <x-page-heading title="Form" color="dark" btn-icon="fa-arrow-left" btn-content="Back"
+        btn-link="{{ route('profiles.show', ['profile' => $user->id]) }}"></x-page-heading>
 
     <div class="row">
         <div class="col-lg-6">

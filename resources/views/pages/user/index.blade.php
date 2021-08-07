@@ -1,13 +1,8 @@
 @extends('layouts/app1')
 @section('content')
     <!-- Page Heading -->
-    @include('partials/page_heading', [
-    'title'=>'User List',
-    'color'=>'primary',
-    'btnIcon'=>'fa-plus',
-    'btnContent'=>'Add',
-    'btnLink'=>route('users.create'),
-    ])
+    <x-page-heading title="User" color="primary" btn-icon="fa-plus" btn-content="add"
+        btn-link="{{ route('users.create') }}"></x-page-heading>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -23,8 +18,8 @@
                             <th>Username</th>
                             <th>Email</th>
                             <!--
-                                                                                                                                                                                    <th>Group</th>
-                                                                                                                                                                                    -->
+                                                                                                                                                                                            <th>Group</th>
+                                                                                                                                                                                            -->
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
