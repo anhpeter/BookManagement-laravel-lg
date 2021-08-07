@@ -42,5 +42,12 @@ $formData = [
         'name' => 'submit',
     ],
 ];
+if ($formType === 'add') {
+    array_push($formData, [
+        'type' => 'hidden',
+        'name' => 'userId',
+        'value' => $userId,
+    ]);
+}
 @endphp
 <x-form :method="$formMethod" :action="$formAction" :formData="$formData" form-for="profile"></x-form>
