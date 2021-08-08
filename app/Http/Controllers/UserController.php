@@ -24,7 +24,7 @@ class UserController extends BaseController
     public function index()
     {
         //
-        $items = DB::table(parent::getTableName())->orderBy('created_at')->limit(5)->get();
+        $items = DB::table(parent::getTableName())->orderBy('created_at')->get();
         return view('pages/' . $this->controller . '/index', ['items' => $items, 'controller' => $this->controller]);
     }
 

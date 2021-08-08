@@ -1,13 +1,16 @@
-@php
-@endphp
 <div class="table-responsive">
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
             <tr>
+                <!-- NO COL -->
                 <th scope="col">#</th>
+
+                <!-- OTHER COLS -->
                 @foreach ($theadData as $key => $column)
                     <th>{{ $getThLabel($column) }}</th>
                 @endforeach
+
+                <!-- ACTION COL -->
                 <th>Action</th>
             </tr>
         </thead>
@@ -19,10 +22,10 @@
                 @endphp
                 <tr>
 
-                    <!-- NO -->
+                    <!-- NO COL -->
                     <th scope="row">{{ $no }}</th>
 
-                    <!-- OTHER COLUMNS -->
+                    <!-- OTHER COLS -->
                     @foreach ($theadData as $key => $column)
                         @php
                             $value = $row[$column['field']];
@@ -38,18 +41,18 @@
                         </td>
                     @endforeach
 
-                    <!-- ACTION -->
+                    <!-- ACTION  COL-->
                     <td>
                         <x-item-action-bar :controller="$controller" :id="$row['id']" :name="$getNameValue($row)">
                         </x-item-action-bar>
                     </td>
                 </tr>
+
+                <!-- EMPTY MESSAGE -->
                 @empty
                     <tr>
                         <td colspan="1000">
-                            <div class="alert alert-primary" role="alert">
-                                No items for display!
-                            </div>
+                            <x-alert type="info" message="No items for display!"></x-alert>
                         </td>
                     </tr>
                 @endforelse
