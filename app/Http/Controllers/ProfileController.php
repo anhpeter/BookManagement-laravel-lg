@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Config\MyConfig;
 use App\Common\Helper\MyHelper;
 use App\Common\Helper\ViewHelper;
+use App\Models\Group;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Contracts\Cache\Store;
@@ -102,7 +104,10 @@ class ProfileController extends BaseController
         $user = DB::table('users')->find($id);
         return view(
             'pages/' . $this->controller . '/combine-form',
-            ['formType' => 'edit', 'item' => $item, 'user' => $user]
+            array_merge(
+                $this->getFormViewParams(),
+                ['formType' => 'edit', 'item' => $item, 'user' => $user]
+            )
 
         );
     }
@@ -178,6 +183,21 @@ class ProfileController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    // GET FORM VIEW PARAMS
+    public function getFormViewParams()
+    {
+        return [
+            'statusSelectData' => MyConfig::getSelectDataForController('user', 'status'),
+            'groupSelectData' => $this->getGroupSelectData(),
+        ];
+    }
+
+    private function getGroupSelectData()
+    {
+        $model = new Group();
+        return $model->listKeyValue('id', 'name');
     }
 
     // GET ITEM

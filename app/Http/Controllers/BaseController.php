@@ -12,9 +12,6 @@ abstract class BaseController extends Controller
     protected $mainModel;
 
     // ABSTRACT METHODS
-    protected abstract function setPageParams(Request $request);
-
-
     public abstract function runValidate(Request $request, $id = null);
     //
 
