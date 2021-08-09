@@ -4,19 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Common\Config\MyConfig;
 use App\Common\Helper\Message;
+use App\Models\Group as MainModel;
 use App\Models\Group;
-use App\Models\Profile;
-use App\Models\User as MainModel;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends BaseController
+class GroupController extends BaseController
 {
     function __construct()
     {
-        parent::__construct('user', new MainModel());
+        parent::__construct('group', new MainModel());
     }
     /**
      * Display a listing of the resource.
@@ -41,7 +39,7 @@ class UserController extends BaseController
      */
     public function create()
     {
-        $item = new User();
+        $item = new Group();
         return view(
             'pages/' . $this->controller . '/form',
             array_merge(
@@ -110,7 +108,6 @@ class UserController extends BaseController
         if ($validator->fails()) {
             return redirect()
                 ->back()
-                ->with(['formFor' => 'user'])
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -127,17 +124,6 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
-        $profile = Profile::where('user_id', $id)->first();
-        if ($profile != null) {
-            if ($profile->avatar) {
-                $path = '/img/profile/avatar/' . $profile->avatar;
-                if (Storage::disk('public')->exists($path)) {
-                    Storage::disk('public')->delete($path);
-                }
-            }
-        }
-
-        Profile::where('user_id', $id)->delete();
         $this->mainModel->where('id', $id)->delete();
         return redirect()->back()->with(['message' => Message::$deleted]);
     }
@@ -147,7 +133,6 @@ class UserController extends BaseController
     {
         return [
             'statusSelectData' => MyConfig::getSelectDataForController($this->controller, 'status'),
-            'groupSelectData' => $this->getGroupSelectData(),
         ];
     }
 
@@ -155,12 +140,9 @@ class UserController extends BaseController
     public function getItemFromRequest(Request $request)
     {
         $item = [
-            'username' => $request->input('username'),
-            'email' => $request->input('email'),
-            'group_id' => $request->input('group_id'),
+            'name' => $request->input('name'),
             'status' => $request->input('status'),
         ];
-        if ($request->input('password')) $item['password'] = $request->input('password');
         return $item;
     }
 
@@ -168,34 +150,18 @@ class UserController extends BaseController
     public function runValidate(Request $request, $id = null)
     {
         // unique
-        $uniqueUsername = sprintf('|unique:%s,%s', $this->getTableName(), 'username');
-        $uniqueEmail = sprintf('|unique:%s,%s', $this->getTableName(), 'email');
+        $uniqueName = sprintf('|unique:%s,%s', $this->getTableName(), 'name');
         if ($id != null) {
-            $uniqueUsername = $uniqueUsername . ',' . $id;
-            $uniqueEmail = $uniqueEmail . ',' . $id;
+            $uniqueName .= ',' . $id;
         }
 
         // rules
         $rules = [
-            'username' => 'bail|required|between:4,16|regex:/^[a-zA-Z0-9]{4,16}$/' . $uniqueUsername,
-            'email' => 'bail|required|email' . $uniqueEmail,
+            'name' => 'bail|required' . $uniqueName,
             'status' => 'required',
-            'group_id' => 'required',
         ];
-
-        // password
-        $password = $request->input('password');
-        if ($password || $id == null)
-            $rules['password'] = 'bail|required|between:4,16|regex:/^[a-zA-Z0-9]{4,16}$/';
         $validator = Validator::make($request->all(), $rules);
         return $validator;
-    }
-
-    // SELECT DATA
-    private function getGroupSelectData()
-    {
-        $model = new Group();
-        return $model->listKeyValue('id', 'name');
     }
 
     // SET PAGE PARAMS
@@ -203,7 +169,7 @@ class UserController extends BaseController
     {
         $this->pageParams = [
             'pagination' => [
-                'itemsPerPage' => 10,
+                'itemsPerPage' => 5,
                 'pageRange' => 3,
             ],
             'sort' => [
@@ -212,18 +178,15 @@ class UserController extends BaseController
             ],
             'filters' => [
                 'status' => trim($request->query('status_filter', 'all')),
-                'group_id' => trim($request->query('group_id_filter', 'all')),
             ],
             'filterData' => [
                 'status' => MyConfig::getSelectDataForController($this->controller, 'status'),
-                'group_id' => $this->getGroupSelectData(),
             ],
             'search' => [
                 'field' => trim($request->query('search_field', 'all')),
                 'value' => trim($request->query('search_value', '')),
             ],
             'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
-            'currentQuery' => $request->query(),
         ];
     }
 }

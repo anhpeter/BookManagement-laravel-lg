@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\checkAge;
@@ -46,6 +47,10 @@ Route::prefix('/admin')->group(function () {
     // book
     Route::resource('/books', BookController::class);
     Route::get('/books/status/{id}/{value}', [BookController::class, 'updateStatus'])->name('books.status');
+
+    // group
+    Route::resource('/groups', GroupController::class);
+    Route::get('/groups/status/{id}/{value}', [GroupController::class, 'updateStatus'])->name('groups.status');
 });
 
 // CHECK MIDDLEWARE

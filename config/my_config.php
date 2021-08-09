@@ -61,7 +61,7 @@ return [
             'status' => ['all', 'active', 'inactive'],
             'action' => ['view', 'edit', 'delete'],
             'filter' => ['status', 'group_id'],
-            'sort'   => ['username', 'email', 'status', 'created_at'],
+            'sort'   => ['username', 'email', 'group_id', 'status', 'created_at'],
             'search' => ['all', 'username', 'email'],
         ],
         'category' => [
@@ -77,6 +77,13 @@ return [
             'filter' => ['status', 'author_id', 'category_id'],
             'sort'   => ['title', 'slug', 'author_id', 'category_id', 'price', 'status', 'created_at'],
             'search' => ['all', 'title'],
+        ],
+        'group' => [
+            'status' => ['all', 'active', 'inactive'],
+            'action' => ['edit', 'delete'],
+            'filter' => ['status'],
+            'sort'   => ['name', 'status', 'created_at'],
+            'search' => ['all', 'name'],
         ],
     ],
 ];

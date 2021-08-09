@@ -26,7 +26,7 @@ class BaseModel extends Model
         $query = $this->applySearch($this, $pageParams['search']);
         $query = $this->applyFilter($query, $pageParams['filters']);
         $query = $this->applySort($query, $pageParams['sort']);
-        $items = $query->paginate(5);
+        $items = $query->paginate($pageParams['pagination']['itemsPerPage']);
         return $items;
     }
 
