@@ -18,6 +18,8 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('status');
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('modified_by')->nullable();
             $table->timestamps();
         });
     }

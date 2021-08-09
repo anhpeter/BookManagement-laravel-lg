@@ -17,6 +17,7 @@ class CreateOrderBookTable extends Migration
             $table->id();
             $table->foreignId('book_id')->constraint(); //changed this line
             $table->foreignId('order_id')->constraint(); //changed this line
+            $table->integer('price'); //changed this line
             $table->integer('quantity'); //changed this line
         });
     }

@@ -18,12 +18,15 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->decimal('price');
-            $table->foreignId('author_id')->nullable()->constrained('users');
+            $table->decimal('discount');
+            $table->foreignId('author_id')->constrained('users');
             $table->foreignId('category_id')->constrained();
             $table->string('status');
             $table->string('picture')->nullable();
             $table->text('short_description')->nullable();
             $table->longText('long_description')->nullable();
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('modified_by')->nullable();
             $table->timestamps();
         });
     }

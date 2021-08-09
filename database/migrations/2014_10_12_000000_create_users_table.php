@@ -24,12 +24,14 @@ class CreateUsersTable extends Migration
         //});
 
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id('id');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->foreignId('group_id')->constraint(); //changed this line
-            $table->string('status');
             $table->string('password');
+            $table->string('status');
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('modified_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
