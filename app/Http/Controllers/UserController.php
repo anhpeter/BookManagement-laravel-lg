@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Common\Config\MyConfig;
 use App\Models\Group;
+use App\Models\Profile;
 use App\Models\User as MainModel;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
-    private $pageParams;
     function __construct()
     {
         parent::__construct('user', new MainModel());
@@ -45,7 +43,10 @@ class UserController extends BaseController
         $item = new User();
         return view(
             'pages/' . $this->controller . '/form',
-            ['formType' => 'add', 'item' => $item]
+            array_merge(
+                $this->getFormViewParams(),
+                ['formType' => 'add', 'item' => $item]
+            )
         );
     }
 
@@ -59,11 +60,8 @@ class UserController extends BaseController
     {
         $this->runValidate($request)->validate();
         $item = $this->getItemFromRequest($request);
-        print("<pre>" .
-            print_r($this->pageParams, true)
-            . "</pre>");
         $savedItem = $this->mainModel->insert($item);
-        return parent::handleSaveResult($savedItem);
+        return $this->handleSaveResult($savedItem);
     }
 
     /**
@@ -85,10 +83,16 @@ class UserController extends BaseController
      */
     public function edit($id)
     {
-        $item = DB::table(parent::getTableName())->find($id);
+        $item = $this->mainModel->find($id);
         return view(
             'pages/' . $this->controller . '/form',
-            ['formType' => 'edit', 'item' => $item]
+            array_merge(
+                $this->getFormViewParams(),
+                [
+                    'formType' => 'edit',
+                    'item' => $item,
+                ]
+            )
         );
     }
 
@@ -110,8 +114,8 @@ class UserController extends BaseController
                 ->withInput();
         }
         $item = $this->getItemFromRequest($request);
-        $affected = DB::table(parent::getTableName())->where('id', $id)->update($item);
-        return parent::handleSaveResult($affected);
+        $affected = $this->mainModel->where('id', $id)->update($item);
+        return $this->handleSaveResult($affected);
     }
 
     /**
@@ -122,7 +126,7 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
-        $profile = DB::table('profiles')->where('user_id', $id)->first();
+        $profile = Profile::where('user_id', $id)->first();
         if ($profile != null) {
             if ($profile->avatar) {
                 $path = '/img/profile/avatar/' . $profile->avatar;
@@ -132,9 +136,18 @@ class UserController extends BaseController
             }
         }
 
-        DB::table('profiles')->where('user_id', $id)->delete();
-        DB::table(parent::getTableName())->delete($id);
+        Profile::where('user_id', $id)->delete();
+        $this->mainModel->where('id', $id)->delete();
         return redirect()->back()->with(['message' => 'Item deleted successfully!']);
+    }
+
+    // GET FORM VIEW PARAMS
+    public function getFormViewParams()
+    {
+        return [
+            'statusSelectData' => MyConfig::getSelectDataForController($this->controller, 'status'),
+            'groupSelectData' => $this->getGroupSelectData(),
+        ];
     }
 
     // GET ITEM
@@ -154,8 +167,8 @@ class UserController extends BaseController
     public function runValidate(Request $request, $id = null)
     {
         // unique
-        $uniqueUsername = sprintf('|unique:%s,%s', parent::getTableName(), 'username');
-        $uniqueEmail = sprintf('|unique:%s,%s', parent::getTableName(), 'email');
+        $uniqueUsername = sprintf('|unique:%s,%s', $this->getTableName(), 'username');
+        $uniqueEmail = sprintf('|unique:%s,%s', $this->getTableName(), 'email');
         if ($id != null) {
             $uniqueUsername = $uniqueUsername . ',' . $id;
             $uniqueEmail = $uniqueEmail . ',' . $id;
@@ -177,10 +190,16 @@ class UserController extends BaseController
         return $validator;
     }
 
-    // SET PAGE PARAMS
-    private function setPageParams(Request $request)
+    // SELECT DATA
+    private function getGroupSelectData()
     {
-        $groupModel = new Group();
+        $model = new Group();
+        return $model->listKeyValue('id', 'name');
+    }
+
+    // SET PAGE PARAMS
+    protected function setPageParams(Request $request)
+    {
         $this->pageParams = [
             'pagination' => [
                 'itemsPerPage' => 5,
@@ -192,11 +211,11 @@ class UserController extends BaseController
             ],
             'filters' => [
                 'status' => trim($request->query('status_filter', 'all')),
-                'group_id' => trim($request->query('group_filter', 'all')),
+                'group_id' => trim($request->query('group_id_filter', 'all')),
             ],
             'filterData' => [
                 'status' => MyConfig::getSelectDataForController($this->controller, 'status'),
-                'group_id' => $groupModel->listKeyValue('id', 'name'),
+                'group_id' => $this->getGroupSelectData(),
             ],
             'search' => [
                 'field' => trim($request->query('search_field', 'all')),

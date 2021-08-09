@@ -32,11 +32,7 @@
             <x-management-table :controller="$controller" :thead-data="$theadData" :tbody-data="$tbodyData"
                 :options="$options" :page-params="$pageParams" :count-filters="$countFilters">
             </x-management-table>
-
-            <!-- PAGINATION -->
-            <div class="d-flex justify-content-end">
-                {{ $items->withQueryString()->links('vendor.pagination.bootstrap-4') }}
-            </div>
+            <x-pagination :paginator="$items"></x-pagination>
         </div>
     </div>
 @endsection

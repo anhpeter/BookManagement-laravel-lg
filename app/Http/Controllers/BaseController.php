@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Common\Helper\MyHelper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 abstract class BaseController extends Controller
 {
+    protected $pageParams;
     protected $controller;
     protected $mainModel;
+
+    // ABSTRACT METHODS
+    protected abstract function setPageParams(Request $request);
+
+
+    public abstract function runValidate(Request $request, $id = null);
+    //
 
     function __construct($controller, $mainModel)
     {
@@ -43,6 +50,6 @@ abstract class BaseController extends Controller
     {
         $field = 'status';
         $this->mainModel->updateFieldById($id, $field, $value);
-        return redirect()->back()->with(['message'=> 'Status updated successfully']);
+        return redirect()->back()->with(['message' => 'Status updated successfully']);
     }
 }

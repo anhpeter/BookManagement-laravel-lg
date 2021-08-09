@@ -82,7 +82,36 @@ class ManagementTable extends Component
     }
 
     // table value
-    public function getTdValue($field,  $value)
+    public function getTdValue($row,  $column)
+    {
+        $result = '';
+        $field = $column['field'];
+        $value = $row[$column['field']];
+        $type = $column['type'] ?? '';
+
+        switch ($type) {
+            case 'time':
+                $result = $this->getHistory($value);
+                break;
+
+            default:
+                $result = $this->handleSearchingValue($field, $value);
+                break;
+        }
+
+        return $result;
+    }
+
+    public function getHistory($value)
+    {
+        if ($value != null) {
+            $icon = '<i class="fas fa-clock fa-fw"></i>';
+            return sprintf('<div>%s <span>%s</span></div>', $icon,  date_format($value, 'd/m/Y'));
+        }
+        return '';
+    }
+
+    public function handleSearchingValue($field, $value)
     {
         if (!$this->hasSearch()) return $value;
 

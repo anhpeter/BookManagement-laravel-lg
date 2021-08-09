@@ -52,7 +52,7 @@
                                 if (isset($column['value'])) {
                                     $value = $column['value']($row);
                                 } else {
-                                    $value = $getTdValue($column['field'], $rowArr[$column['field']]);
+                                    $value = $getTdValue($row, $column);
                                 }
                             @endphp
                             <td>
@@ -90,3 +90,4 @@
         <!-- DELETE ITEM MODAL -->
         @include('partials/delete_item_modal')
     </div>
+

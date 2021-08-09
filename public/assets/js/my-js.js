@@ -22,6 +22,10 @@ let domSlt = {
     searchTypeBtn: $('.search-bar .btn-search-type'),
     searchBarOption: $('.search-bar .dropdown-item'),
 
+    // index
+    filterSelect: $('.filter-select'),
+
+
 
 
 }
@@ -40,7 +44,19 @@ function setupEvents() {
     setEditImageHandler();
     setImageInputFileChange();
     setSearchBar();
+    setFilterSelect();
 
+
+}
+
+function setFilterSelect() {
+    domSlt.filterSelect.change(function (e) {
+        let key = $(this).attr('name') + "_filter";
+        let urlParams = new URLSearchParams(location.search);
+        urlParams.set(key, $(this).val());
+        let link =  `/admin/${getController()}s?${urlParams.toString()}`;
+        location.href =link;
+    });
 }
 
 function setSearchBar() {

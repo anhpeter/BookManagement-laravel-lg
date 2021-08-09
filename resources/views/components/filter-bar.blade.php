@@ -1,7 +1,13 @@
 <div class="d-flex  flex-column ">
-    @foreach ($filterData as $field => $data)
+    @foreach (MyConfig::getItemDataForController($controller, 'filter') as $field)
+        @php
+            $data = $filterData[$field];
+        @endphp
         <!-- LABEL-->
         @if ($isSelectFilter($field) === false)
+            @php
+                $data = array_merge(['all' => 'All'], $data);
+            @endphp
             <div class="mr-3 d-flex align-items-center my-1">
                 <span class="filter-label">{{ $getLabel($field) }}</span>
                 <div class="btn-group btn-group-sm ml-3">
@@ -19,17 +25,12 @@
                 </div>
             </div>
         @else
-            @php
-                $selectDataWithCount = $getSelectDataWithCount($field, $data);
-            @endphp
-            @if (count($selectDataWithCount) > 0)
-                <div class="mr-3 d-flex align-items-center my-1">
-                    <span class="filter-label">{{ $getLabel($field) }}</span>
-                    <div class="ml-3">
-                        {!! Form::select($field, $selectDataWithCount, $filters[$field], ['class' => 'custom-select']) !!}
-                    </div>
+            <div class="mr-3 d-flex align-items-center my-1">
+                <span class="filter-label">{{ $getLabel($field) }}</span>
+                <div class="ml-3">
+                    {!! Form::select($field, $getSelectDataWithCount($field, $data), $filters[$field], ['class' => 'custom-select filter-select']) !!}
                 </div>
-            @endif
+            </div>
         @endif
     @endforeach
     <!-- 

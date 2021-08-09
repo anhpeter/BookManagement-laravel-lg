@@ -68,14 +68,16 @@ class FilterBar extends Component
     {
         $count = $this->countFilters[$field];
         $data = array_filter($selectData, function ($key) use ($count) {
-            return $count[$key] > 0;
+            return  $count[$key] > 0;
         }, ARRAY_FILTER_USE_KEY);
-        return array_map(function ($item, $index) use ($count) {
-            return sprintf('%s (%s)', $item, $count[$index]);
-        }, $data, array_keys($data));
+        array_walk($data, function (&$a, $b) use ($count) {
+            $a = sprintf('%s (%s)', $a, $count[$b]);
+        });
+        return ['all'=>'All'] + $data;
     }
 
-    public function getLabel($field){
+    public function getLabel($field)
+    {
         return ucfirst($field);
     }
 }

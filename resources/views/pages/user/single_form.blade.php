@@ -6,16 +6,6 @@ if ($formType === 'edit') {
     $formMethod = 'PUT';
 }
 
-$statusSelectItems = [
-    'active' => 'Active',
-    'inactive' => 'In active',
-];
-$groupSelectItems = [
-    '1' => 'Admin',
-    '2' => 'Member',
-    '3' => 'Editor',
-];
-
 $formData = [
     [
         'name' => 'username',
@@ -34,13 +24,13 @@ $formData = [
     [
         'type' => 'select',
         'name' => 'status',
-        'selectData' => $statusSelectItems,
+        'selectData' => $statusSelectData,
         'value' => old('stauts', $item->status),
     ],
     [
         'type' => 'select',
         'name' => 'group_id',
-        'selectData' => $groupSelectItems,
+        'selectData' => $groupSelectData,
         'value' => old('group_id', $item->group_id),
     ],
     [

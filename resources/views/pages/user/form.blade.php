@@ -13,7 +13,6 @@
         <div class="offset-lg-3 col-lg-6 form-wrapper">
             @include('pages/user/single_form')
         </div>
-
     </div>
 
 @endsection

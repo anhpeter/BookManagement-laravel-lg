@@ -58,7 +58,7 @@ return [
         'user' => [
             'status' => ['all', 'active', 'inactive'],
             'action' => ['view', 'edit', 'delete'],
-            'filter' => ['status', ''],
+            'filter' => ['status', 'group_id'],
             'sort'   => ['username', 'email', 'status', 'created_at'],
             'search' => ['all', 'username', 'email'],
         ],

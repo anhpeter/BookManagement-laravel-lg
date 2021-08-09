@@ -39,5 +39,9 @@ class ViewHelper
         }
         return asset('storage/img/common/avatar-empty.png');
     }
+
+    public static function getMenuItemClass($currentController, $controller){
+        return $currentController === $controller ? 'active' : '';
+    }
     //
 }

@@ -26,6 +26,10 @@
         Interface
     </div>
 
+    @php
+        $manageUserClass = in_array($controller, ['user', 'group']) ? 'show' : '';
+        $manageProductClass = in_array($controller, ['category', 'book']) ? 'show' : '';
+    @endphp
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
@@ -33,11 +37,13 @@
             <i class="fas fa-fw fa-users"></i>
             <span>Manage user</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{ $manageUserClass }}" aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Components:</h6>
-                <a class="collapse-item" href="/group">Group</a>
-                <a class="collapse-item" href="{{ route('users.index') }}">User</a>
+                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'group') }}"
+                    href="/group">Group</a>
+                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'user') }}"
+                    href="{{ route('users.index') }}">User</a>
             </div>
         </div>
     </li>
@@ -47,7 +53,8 @@
             <i class="fas fa-fw fa-book"></i>
             <span>Manage product</span>
         </a>
-        <div id="collapseproduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseproduct" class="collapse {{ $manageProductClass }}" aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Custom Components:</h6>
                 <a class="collapse-item" href="/group">Category</a>

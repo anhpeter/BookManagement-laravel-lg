@@ -8,6 +8,7 @@ use App\View\Components\Form;
 use App\View\Components\ItemActionBar;
 use App\View\Components\ManagementTable;
 use App\View\Components\PageHeading;
+use App\View\Components\Pagination;
 use App\View\Components\SearchBar;
 use App\View\Components\Status;
 use Illuminate\Support\Facades\Blade;
@@ -41,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('management-table', ManagementTable::class);
         Blade::component('search-bar', SearchBar::class);
         Blade::component('filter-bar', FilterBar::class);
+        Blade::component('pagination', Pagination::class);
     }
 }

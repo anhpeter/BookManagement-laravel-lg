@@ -30,9 +30,8 @@ class MyConfig
 
     public static function getSelectDataForController($controller, $itemName)
     {
-        $itemNames = self::getConfig()['controller'][$controller][$itemName];
-        $itemNamesFlip = array_flip($itemNames);
         $template = self::getTemplate()[$itemName];
+        unset($template['all']);
         $selectData =  array_map(function ($item) {
             return $item['content'];
         }, $template);

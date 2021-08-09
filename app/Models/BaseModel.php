@@ -34,8 +34,10 @@ class BaseModel extends Model
     {
         $query = $this->applySearch($this, $pageParams['search']);
         $query = $this->applyFilter($query, $pageParams['filters']);
+        $filterNames = MyConfig::getItemDataForController($this->controller, 'filter');
         $result = [];
-        foreach ($pageParams['filterData'] as $field => $data) {
+        foreach ($filterNames as $field) {
+            $data = $pageParams['filterData'][$field];
             $result[$field] = [];
             $keys = array_keys($data);
             foreach ($keys as $key) {
@@ -47,7 +49,6 @@ class BaseModel extends Model
         }
         return $result;
     }
-
 
     private function applySearch($query, $searchParams)
     {
