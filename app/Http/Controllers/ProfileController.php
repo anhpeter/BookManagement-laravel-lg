@@ -19,7 +19,7 @@ class ProfileController extends BaseController
 
     function __construct()
     {
-        parent::__construct('profile');
+        parent::__construct('profile', new Profile());
     }
     /**
      * Display a listing of the resource.
@@ -54,10 +54,8 @@ class ProfileController extends BaseController
         $item = new Profile();
         return view(
             'pages/' . $this->controller . '/form',
-            array_merge(
-                parent::getViewParams(),
-                ['formType' => 'add', 'item' => $item, 'userId' => $userId]
-            )
+            parent::getViewParams(),
+            ['formType' => 'add', 'item' => $item, 'userId' => $userId]
         );
     }
 
@@ -104,10 +102,7 @@ class ProfileController extends BaseController
         $user = DB::table('users')->find($id);
         return view(
             'pages/' . $this->controller . '/combine-form',
-            array_merge(
-                parent::getViewParams(),
-                ['formType' => 'edit', 'item' => $item, 'user' => $user]
-            )
+            ['formType' => 'edit', 'item' => $item, 'user' => $user]
 
         );
     }

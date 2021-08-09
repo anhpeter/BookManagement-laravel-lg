@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Common\Config\MyConfig;
+use App\Common\Helper\MyHelper;
 use Illuminate\View\Component;
 
 class Status extends Component
@@ -33,5 +34,17 @@ class Status extends Component
     public function render()
     {
         return view('components.status');
+    }
+
+    public function getLink()
+    {
+        $newValue = $this->value == 'active' ? 'inactive' : 'active';
+        return route(
+            MyHelper::toPlural($this->controller) . '.' . $this->field,
+            array_merge(
+                app('request')->query(),
+                ['id' => $this->id, 'value' => $newValue]
+            )
+        );
     }
 }

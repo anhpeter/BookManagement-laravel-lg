@@ -26,8 +26,11 @@ Route::prefix('/admin')->group(function () {
         return view('pages/home');
     });
 
+    // user
     Route::resource('/users', UserController::class);
+    Route::get('/users/status/{id}/{value}', [UserController::class, 'updateStatus'])->name('users.status');
 
+    // profile
     Route::resource('/profiles', ProfileController::class)->except(['index']);
 
     Route::get('/profiles/{userId}/create', [ProfileController::class, 'createProfile'])->name('create-profile');

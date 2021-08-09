@@ -1,3 +1,9 @@
+/* index */
+
+.highlight {
+    background-color: yellow;
+}
+
 .book-picture {
     overflow: hidden;
     border-radius: 5px;

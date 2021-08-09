@@ -9,6 +9,10 @@ return [
     ],
     'template' => [
         'status' => [
+            'all' => [
+                'content' => 'All',
+                'class' => 'btn btn-success',
+            ],
             'active' => [
                 'content' => 'Active',
                 'class' => 'btn btn-success',
@@ -38,11 +42,25 @@ return [
                 'content' => 'Delete',
             ],
         ],
+        'search' => [
+            // COMMON
+            'all' => 'Search by all',
+            'name' => 'Search by name',
+
+            // USER
+            'email' => 'Search by email',
+            'username' => 'Search by username',
+
+            //
+        ]
     ],
     'controller' => [
         'user' => [
-            'status' => ['active', 'inactive'],
+            'status' => ['all', 'active', 'inactive'],
             'action' => ['view', 'edit', 'delete'],
+            'filter' => ['status'],
+            'sort'   => ['username', 'email', 'status', 'created_at'],
+            'search' => ['all', 'username', 'email'],
         ],
     ],
 ];

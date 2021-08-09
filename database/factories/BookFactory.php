@@ -25,6 +25,7 @@ class BookFactory extends Factory
             'title' => $this->faker->title(),
             'slug' => $this->faker->slug(),
             'price' => $this->faker->numberBetween(50000, 300000),
+            'discount' => $this->faker->numberBetween(0, 100),
             'category_id' => 1,
             'author_id' => 1,
             'status' => 'active',

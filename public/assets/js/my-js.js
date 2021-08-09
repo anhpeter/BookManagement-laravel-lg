@@ -12,6 +12,18 @@ let domSlt = {
     btnCropped: $('.btn-cropped'),
     image: $('#crop-image'),
 
+    // meta
+    controllerMeta: $('meta[name="controller"]'),
+
+    // search
+    searchForm: $('.search-form'),
+    searchInput: $('.search-form input'),
+    searchBar: $('.search-bar'),
+    searchTypeBtn: $('.search-bar .btn-search-type'),
+    searchBarOption: $('.search-bar .dropdown-item'),
+
+
+
 }
 
 $(document).ready(function () {
@@ -27,7 +39,29 @@ function setupEvents() {
     deleteItemHandler();
     setEditImageHandler();
     setImageInputFileChange();
+    setSearchBar();
+
 }
+
+function setSearchBar() {
+    domSlt.searchForm.submit(function (e) {
+        e.preventDefault();
+        let urlParams = new URLSearchParams(location.search);
+        let key = domSlt.searchTypeBtn.data('name');
+        let value = domSlt.searchInput.val();
+        urlParams.set('search_field', key);
+        urlParams.set('search_value', value);
+        location.href = `/admin/${getController()}s?${urlParams.toString()}`;
+    });
+
+    domSlt.searchBarOption.click(function (e) {
+        let key = $(this).data('name');
+        let value = $(this).text();
+        domSlt.searchTypeBtn.data('name', key);
+        domSlt.searchTypeBtn.text(value);
+    });
+}
+
 
 
 function setEditImageHandler() {
@@ -79,8 +113,12 @@ function deleteItemHandler() {
 
 function setCropperImage() {
     domSlt.image.cropper({
-        aspectRatio: 1/1,
+        aspectRatio: 1 / 1,
         background: false,
         autoCropArea: 1,
     });
+}
+
+function getController() {
+    return domSlt.controllerMeta.attr('content');
 }

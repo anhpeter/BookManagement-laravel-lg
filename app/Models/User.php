@@ -2,14 +2,21 @@
 
 namespace App\Models;
 
+use App\Common\Config\MyConfig;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends BaseModel
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+
+    function __construct()
+    {
+        parent::__construct('user');
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -17,9 +24,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
+        'group_id',
         'password',
+        'status',
     ];
 
     /**
@@ -46,5 +55,23 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    // MANIPULATE
+    public function insert($item)
+    {
+        $modelItem = new $this();
+        $modelItem->username = $item['username'];
+        $modelItem->email = $item['email'];
+        $modelItem->group_id = $item['group_id'];
+        $modelItem->status = $item['status'];
+        $modelItem->password = $item['password'];
+        $result = $modelItem->save();
+        return $result;
     }
 }

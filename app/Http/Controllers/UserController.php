@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Config\MyConfig;
+use App\Models\User as MainModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,21 +13,25 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
-
+    private $pageParams;
     function __construct()
     {
-        parent::__construct('user');
+        parent::__construct('user', new MainModel());
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $items = DB::table(parent::getTableName())->orderBy('created_at')->get();
-        return view('pages/' . $this->controller . '/index', ['items' => $items, 'controller' => $this->controller]);
+        $this->setPageParams($request);
+        $items = $this->mainModel->listAll($this->pageParams);
+        $countFilters = $this->mainModel->countFilters($this->pageParams);
+        return view(
+            'pages/' . $this->controller . '/index',
+            ['items' => $items, 'controller' => $this->controller, 'pageParams' => $this->pageParams, 'countFilters' => $countFilters]
+        );
     }
 
     /**
@@ -38,10 +44,7 @@ class UserController extends BaseController
         $item = new User();
         return view(
             'pages/' . $this->controller . '/form',
-            array_merge(
-                parent::getViewParams(),
-                ['formType' => 'add', 'item' => $item]
-            )
+            ['formType' => 'add', 'item' => $item]
         );
     }
 
@@ -55,8 +58,11 @@ class UserController extends BaseController
     {
         $this->runValidate($request)->validate();
         $item = $this->getItemFromRequest($request);
-        $affected = DB::table(parent::getTableName())->insert($item);
-        return parent::handleSaveResult($affected);
+        print("<pre>" .
+            print_r($item, true)
+            . "</pre>");
+        $savedItem = $this->mainModel->insert($item);
+        return parent::handleSaveResult($savedItem);
     }
 
     /**
@@ -81,10 +87,7 @@ class UserController extends BaseController
         $item = DB::table(parent::getTableName())->find($id);
         return view(
             'pages/' . $this->controller . '/form',
-            array_merge(
-                parent::getViewParams(),
-                ['formType' => 'edit', 'item' => $item]
-            )
+            ['formType' => 'edit', 'item' => $item]
         );
     }
 
@@ -130,7 +133,7 @@ class UserController extends BaseController
 
         DB::table('profiles')->where('user_id', $id)->delete();
         DB::table(parent::getTableName())->delete($id);
-        return Redirect(route(parent::getTableName() . '.index'))->with(['message' => 'Item deleted successfully!']);
+        return redirect()->back()->with(['message' => 'Item deleted successfully!']);
     }
 
     // GET ITEM
@@ -171,5 +174,32 @@ class UserController extends BaseController
             $rules['password'] = 'bail|required|between:4,16|regex:/^[a-zA-Z0-9]{4,16}$/';
         $validator = Validator::make($request->all(), $rules);
         return $validator;
+    }
+
+    // SET PAGE PARAMS
+    private function setPageParams(Request $request)
+    {
+        $this->pageParams = [
+            'pagination' => [
+                'itemsPerPage' => 5,
+                'pageRange' => 3,
+            ],
+            'sort' => [
+                'field' => trim($request->query('sort_field', 'created_at')),
+                'value' => trim($request->query('sort_value', 'desc')),
+            ],
+            'filters' => [
+                'status' => trim($request->query('status_filter', 'all')),
+            ],
+            'filterData' => [
+                'status' => MyConfig::getItemTemplateForController($this->controller, 'status'),
+            ],
+            'search' => [
+                'field' => trim($request->query('search_field', 'all')),
+                'value' => trim($request->query('search_value', '')),
+            ],
+            'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
+            'currentQuery' => $request->query(),
+        ];
     }
 }

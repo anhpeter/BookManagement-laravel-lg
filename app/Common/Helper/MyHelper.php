@@ -20,4 +20,19 @@ class MyHelper
     {
         return json_decode(json_encode($item), true);
     }
+
+    public static function convertFieldToFilterName($value)
+    {
+        return $value . '_filter';
+    }
+
+    public static function convertFilterNameToField($value)
+    {
+        return str_replace('_filter', '', $value);
+    }
+
+    public static function toPlural($controller)
+    {
+        return $controller.'s';
+    }
 }

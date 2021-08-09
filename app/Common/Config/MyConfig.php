@@ -23,9 +23,14 @@ class MyConfig
         return self::getConfig()['path'];
     }
 
+    public static function getItemDataForController($controller, $itemName)
+    {
+        return self::getConfig()['controller'][$controller][$itemName];
+    }
+
     public static function getItemTemplateForController($controller, $itemName)
     {
-        $itemNames = self::getConfig()['controller'][$controller]['action'];
+        $itemNames = self::getConfig()['controller'][$controller][$itemName];
         $itemNamesFlip = array_flip($itemNames);
         $template = self::getTemplate()[$itemName];
         $result = array_intersect_key($template, $itemNamesFlip);
