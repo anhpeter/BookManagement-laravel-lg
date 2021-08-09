@@ -23,7 +23,7 @@
     @endphp
 
     <!-- Page Heading -->
-    <x-page-heading title="{{ ucfirst($controller) }}" color="primary" btn-icon="fa-plus" btn-content="add"
+    <x-page-heading title="{{ ucfirst($controller) }}" color="primary" btn-icon="fa-plus" btn-content="Add"
         btn-link="{{ route(MyHelper::toPlural($controller) . '.create') }}"></x-page-heading>
 
     <!-- DataTales Example -->

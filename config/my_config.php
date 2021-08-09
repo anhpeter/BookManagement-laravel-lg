@@ -51,7 +51,9 @@ return [
             'email' => 'Search by email',
             'username' => 'Search by username',
 
-            //
+            // book
+            'title' => 'Search by title',
+            
         ]
     ],
     'controller' => [
@@ -68,6 +70,13 @@ return [
             'filter' => ['status'],
             'sort'   => ['name', 'slug', 'status', 'created_at'],
             'search' => ['all', 'name'],
+        ],
+        'book' => [
+            'status' => ['all', 'active', 'inactive'],
+            'action' => ['edit', 'delete'],
+            'filter' => ['status', 'author_id', 'category_id'],
+            'sort'   => ['title', 'slug', 'author_id', 'category_id', 'price', 'status', 'created_at'],
+            'search' => ['all', 'title'],
         ],
     ],
 ];

@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Common\Config\MyConfig;
 use App\Common\Helper\Message;
-use App\Models\Category as MainModel;
+use App\Models\Author;
+use App\Models\Group;
+use App\Models\Profile;
+use App\Models\Book as MainModel;
+use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends BaseController
+class BookController extends BaseController
 {
     function __construct()
     {
-        parent::__construct('category', new MainModel());
+        parent::__construct('book', new MainModel());
     }
     /**
      * Display a listing of the resource.
@@ -39,7 +43,7 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $item = new Category();
+        $item = new Book();
         return view(
             'pages/' . $this->controller . '/form',
             array_merge(
@@ -124,7 +128,16 @@ class CategoryController extends BaseController
      */
     public function destroy($id)
     {
-        $this->mainModel->where('id', $id)->delete();
+        $item = $this->find($id);
+        if ($item != null) {
+            if ($item->picture) {
+                $path = '/img/' . $this->controller . '/picture/' . $item->picture;
+                if (Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
+        }
+        $item->delete();
         return redirect()->back()->with(['message' => Message::$deleted]);
     }
 
@@ -133,6 +146,8 @@ class CategoryController extends BaseController
     {
         return [
             'statusSelectData' => MyConfig::getSelectDataForController($this->controller, 'status'),
+            'categorySelectData' => $this->getCategorySelectData(),
+            'authorSelectData' => $this->getAuthorSelectData(),
         ];
     }
 
@@ -140,10 +155,18 @@ class CategoryController extends BaseController
     public function getItemFromRequest(Request $request)
     {
         $item = [
-            'name' => $request->input('name'),
+            'title' => $request->input('title'),
             'slug' => $request->input('slug'),
+            'price' => $request->input('price'),
+            'discount' => $request->input('discount'),
+            'author_id' => $request->input('author_id'),
+            'category_id' => $request->input('category_id'),
             'status' => $request->input('status'),
+            'picture' => $request->input('picture'),
+            'short_description' => $request->input('short_description'),
+            'long_description' => $request->input('long_description'),
         ];
+        if ($request->input('password')) $item['password'] = $request->input('password');
         return $item;
     }
 
@@ -151,21 +174,38 @@ class CategoryController extends BaseController
     public function runValidate(Request $request, $id = null)
     {
         // unique
-        $uniqueName = sprintf('|unique:%s,%s', $this->getTableName(), 'name');
+        $uniqueTitle = sprintf('|unique:%s,%s', $this->getTableName(), 'title');
         $uniqueSlug = sprintf('|unique:%s,%s', $this->getTableName(), 'slug');
         if ($id != null) {
-            $uniqueName .= ',' . $id;
+            $uniqueTitle .= ',' . $id;
             $uniqueSlug .= ',' . $id;
         }
 
-        // rules
         $rules = [
-            'name' => 'bail|required' . $uniqueName,
+            'title' => 'bail|required' . $uniqueTitle,
             'slug' => 'bail|required' . $uniqueSlug,
+            'price' => 'bail|required',
+            'discount' => 'bail|required',
+            'author_id' => 'bail|required',
+            'category_id' => 'bail|required',
             'status' => 'required',
         ];
+
         $validator = Validator::make($request->all(), $rules);
         return $validator;
+    }
+
+    // SELECT DATA
+    private function getCategorySelectData()
+    {
+        $model = new Category();
+        return $model->listKeyValue('id', 'name');
+    }
+
+    private function getAuthorSelectData()
+    {
+        $model = new Author();
+        return $model->listKeyValue('id', 'name');
     }
 
     // SET PAGE PARAMS
@@ -182,9 +222,13 @@ class CategoryController extends BaseController
             ],
             'filters' => [
                 'status' => trim($request->query('status_filter', 'all')),
+                'author_id' => trim($request->query('author_id_filter', 'all')),
+                'category_id' => trim($request->query('category_id_filter', 'all')),
             ],
             'filterData' => [
                 'status' => MyConfig::getSelectDataForController($this->controller, 'status'),
+                'author_id' => $this->getAuthorSelectData(),
+                'category_id' => $this->getCategorySelectData(),
             ],
             'search' => [
                 'field' => trim($request->query('search_field', 'all')),

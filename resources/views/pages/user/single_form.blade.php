@@ -40,4 +40,4 @@ $formData = [
     ],
 ];
 @endphp
-<x-form :method="$formMethod" :action="$formAction" :formData="$formData" form-for="{{$controller}}"></x-form>
+<x-form :method="$formMethod" :action="$formAction" :formData="$formData" form-for="{{ $controller }}"></x-form>

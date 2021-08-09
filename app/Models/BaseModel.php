@@ -17,7 +17,7 @@ class BaseModel extends Model
 
     public function listKeyValue($key, $value)
     {
-        $items = Group::get();
+        $items = $this->get();
         return array_column(MyHelper::convertStdClassToArray($items), $value, $key);
     }
 

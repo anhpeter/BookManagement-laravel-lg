@@ -41,7 +41,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'group') }}"
-                    href="/group">Group</a>
+                    href="admin/groups">Group</a>
                 <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'user') }}"
                     href="{{ route('users.index') }}">User</a>
             </div>
@@ -59,7 +59,7 @@
                 <h6 class="collapse-header">Custom Components:</h6>
                 <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'category') }}"
                     href="/admin/categories">Category</a>
-                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'book') }}" href="/book">Book</a>
+                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'book') }}" href="/admin/books">Book</a>
             </div>
         </div>
     </li>

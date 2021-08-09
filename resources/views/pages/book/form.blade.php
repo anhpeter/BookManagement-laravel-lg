@@ -1,5 +1,5 @@
 @php
-$controller = 'user';
+$controller = 'book';
 @endphp
 @extends('layouts/app1')
 @section('content')

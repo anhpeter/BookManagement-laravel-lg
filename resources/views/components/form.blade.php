@@ -20,6 +20,9 @@
                         @case('text')
                             {!! Form::text($inputName, $inputValue, ['class' => $getHtmlClass('text-input')]) !!}
                         @break
+                        @case('textarea')
+                            {!! Form::textarea($inputName, $inputValue, ['class' => $getHtmlClass('text-input')]) !!}
+                        @break
                         @case('email')
                             {!! Form::email($inputName, $inputValue, ['class' => $getHtmlClass('text-input')]) !!}
                         @break

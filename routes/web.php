@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\ProfileController;
@@ -37,13 +38,14 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/profiles/{userId}/create', [ProfileController::class, 'createProfile'])->name('create-profile');
 
-    Route::get('/book', function () {
-        return view('pages/book/index');
-    });
 
     // category
     Route::resource('/categories', CategoryController::class);
     Route::get('/categories/status/{id}/{value}', [CategoryController::class, 'updateStatus'])->name('categories.status');
+
+    // book
+    Route::resource('/books', BookController::class);
+    Route::get('/books/status/{id}/{value}', [BookController::class, 'updateStatus'])->name('books.status');
 });
 
 // CHECK MIDDLEWARE
