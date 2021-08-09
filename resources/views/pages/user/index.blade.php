@@ -5,6 +5,13 @@
     $theadData = [
         ['field' => 'username'],
         ['field' => 'email'],
+        [
+            'field' => 'group_id',
+            'label' => 'Group',
+            'value' => function ($item) {
+                return $item->group->name;
+            },
+        ],
         ['field' => 'status'],
         [
             'field' => 'created_at',

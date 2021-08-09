@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Helper\MyHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -19,7 +20,7 @@ abstract class BaseController extends Controller
 
     protected function getTableName()
     {
-        return $this->controller . 's';
+        return MyHelper::toPlural($this->controller);
     }
 
     protected function getViewParams()
@@ -38,10 +39,10 @@ abstract class BaseController extends Controller
         return session('status') === 'success';
     }
 
-    public function updateStatus(Request $request, $id, $value)
+    public function updateStatus($id, $value)
     {
         $field = 'status';
         $this->mainModel->updateFieldById($id, $field, $value);
-        return redirect()->back();
+        return redirect()->back()->with(['message'=> 'Status updated successfully']);
     }
 }

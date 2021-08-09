@@ -28,6 +28,17 @@ class MyConfig
         return self::getConfig()['controller'][$controller][$itemName];
     }
 
+    public static function getSelectDataForController($controller, $itemName)
+    {
+        $itemNames = self::getConfig()['controller'][$controller][$itemName];
+        $itemNamesFlip = array_flip($itemNames);
+        $template = self::getTemplate()[$itemName];
+        $selectData =  array_map(function ($item) {
+            return $item['content'];
+        }, $template);
+        return $selectData;
+    }
+
     public static function getItemTemplateForController($controller, $itemName)
     {
         $itemNames = self::getConfig()['controller'][$controller][$itemName];

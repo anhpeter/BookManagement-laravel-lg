@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Common\Config\MyConfig;
+use App\Common\Helper\MyHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
@@ -12,6 +13,12 @@ class BaseModel extends Model
     function __construct($controller)
     {
         $this->controller = $controller;
+    }
+
+    public function listKeyValue($key, $value)
+    {
+        $items = Group::get();
+        return array_column(MyHelper::convertStdClassToArray($items), $value, $key);
     }
 
     public function listAll($pageParams = [])
@@ -31,10 +38,11 @@ class BaseModel extends Model
         foreach ($pageParams['filterData'] as $field => $data) {
             $result[$field] = [];
             $keys = array_keys($data);
-            array_shift($keys);
             foreach ($keys as $key) {
-                $cloneQuery = clone $query;
-                $result[$field][$key] = $cloneQuery->where($field, $key)->count();
+                if ($key !== 'all') {
+                    $cloneQuery = clone $query;
+                    $result[$field][$key] = $cloneQuery->where($field, $key)->count();
+                }
             }
         }
         return $result;

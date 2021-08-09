@@ -5,7 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class Group extends BaseModel
 {
+
+    function __construct()
+    {
+        parent::__construct('group');
+    }
     use HasFactory;
 }

@@ -7,7 +7,7 @@
 
 <body id="page-top" class="position-relative">
 
-        @include('partials/message_toast')
+    @include('partials/message_toast')
 
     <!-- Page Wrapper -->
     <div id="wrapper">

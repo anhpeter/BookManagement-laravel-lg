@@ -48,7 +48,12 @@
                         <!-- OTHER COLS -->
                         @foreach ($theadData as $key => $column)
                             @php
-                                $value = $getTdValue($column['field'], $rowArr[$column['field']]);
+                                $value;
+                                if (isset($column['value'])) {
+                                    $value = $column['value']($row);
+                                } else {
+                                    $value = $getTdValue($column['field'], $rowArr[$column['field']]);
+                                }
                             @endphp
                             <td>
                                 @switch($column['field'])
@@ -63,7 +68,8 @@
 
                         <!-- ACTION  COL-->
                         <td>
-                            <x-item-action-bar :controller="$controller" :id="$rowArr['id']" :name="$getNameValue($rowArr)">
+                            <x-item-action-bar :controller="$controller" :id="$rowArr['id']"
+                                :name="$getNameValue($rowArr)">
                             </x-item-action-bar>
                         </td>
                     </tr>

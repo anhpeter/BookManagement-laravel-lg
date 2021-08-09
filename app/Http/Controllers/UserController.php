@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\Config\MyConfig;
+use App\Models\Group;
 use App\Models\User as MainModel;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class UserController extends BaseController
         $this->runValidate($request)->validate();
         $item = $this->getItemFromRequest($request);
         print("<pre>" .
-            print_r($item, true)
+            print_r($this->pageParams, true)
             . "</pre>");
         $savedItem = $this->mainModel->insert($item);
         return parent::handleSaveResult($savedItem);
@@ -179,6 +180,7 @@ class UserController extends BaseController
     // SET PAGE PARAMS
     private function setPageParams(Request $request)
     {
+        $groupModel = new Group();
         $this->pageParams = [
             'pagination' => [
                 'itemsPerPage' => 5,
@@ -190,9 +192,11 @@ class UserController extends BaseController
             ],
             'filters' => [
                 'status' => trim($request->query('status_filter', 'all')),
+                'group_id' => trim($request->query('group_filter', 'all')),
             ],
             'filterData' => [
-                'status' => MyConfig::getItemTemplateForController($this->controller, 'status'),
+                'status' => MyConfig::getSelectDataForController($this->controller, 'status'),
+                'group_id' => $groupModel->listKeyValue('id', 'name'),
             ],
             'search' => [
                 'field' => trim($request->query('search_field', 'all')),

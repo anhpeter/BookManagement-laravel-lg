@@ -11,6 +11,7 @@ class FilterBar extends Component
     public $controller;
     public $filterData;
     public $countFilters;
+    public $filters;
 
     /**
      * Create a new component instance.
@@ -56,5 +57,25 @@ class FilterBar extends Component
                 ]
             )
         ); //sprintf('/admin/%s?%s=%s',  MyHelper::toPlural($this->controller),  MyHelper::convertFieldToFilterName($field), $key );
+    }
+
+    public function isSelectFilter($field)
+    {
+        return strpos($field, '_id');
+    }
+
+    public function getSelectDataWithCount($field, $selectData)
+    {
+        $count = $this->countFilters[$field];
+        $data = array_filter($selectData, function ($key) use ($count) {
+            return $count[$key] > 0;
+        }, ARRAY_FILTER_USE_KEY);
+        return array_map(function ($item, $index) use ($count) {
+            return sprintf('%s (%s)', $item, $count[$index]);
+        }, $data, array_keys($data));
+    }
+
+    public function getLabel($field){
+        return ucfirst($field);
     }
 }
