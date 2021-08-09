@@ -62,5 +62,12 @@ return [
             'sort'   => ['username', 'email', 'status', 'created_at'],
             'search' => ['all', 'username', 'email'],
         ],
+        'category' => [
+            'status' => ['all', 'active', 'inactive'],
+            'action' => ['edit', 'delete'],
+            'filter' => ['status'],
+            'sort'   => ['name', 'slug', 'status', 'created_at'],
+            'search' => ['all', 'name'],
+        ],
     ],
 ];

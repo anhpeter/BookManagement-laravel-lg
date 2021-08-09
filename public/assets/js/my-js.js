@@ -54,7 +54,7 @@ function setFilterSelect() {
         let key = $(this).attr('name') + "_filter";
         let urlParams = new URLSearchParams(location.search);
         urlParams.set(key, $(this).val());
-        let link =  `/admin/${getController()}s?${urlParams.toString()}`;
+        let link =  `/admin/${getController()}?${urlParams.toString()}`;
         location.href =link;
     });
 }
@@ -67,7 +67,7 @@ function setSearchBar() {
         let value = domSlt.searchInput.val();
         urlParams.set('search_field', key);
         urlParams.set('search_value', value);
-        location.href = `/admin/${getController()}s?${urlParams.toString()}`;
+        location.href = `/admin/${getController()}?${urlParams.toString()}`;
     });
 
     domSlt.searchBarOption.click(function (e) {

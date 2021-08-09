@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\checkAge;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +25,8 @@ Route::get('/test', function () {
 });
 
 Route::prefix('/admin')->group(function () {
-    Route::get('/', function () {
-        return view('pages/home');
-    });
+
+    Route::get('/', [Dashboard::class, 'index']);
 
     // user
     Route::resource('/users', UserController::class);
@@ -38,6 +40,10 @@ Route::prefix('/admin')->group(function () {
     Route::get('/book', function () {
         return view('pages/book/index');
     });
+
+    // category
+    Route::resource('/categories', CategoryController::class);
+    Route::get('/categories/status/{id}/{value}', [CategoryController::class, 'updateStatus'])->name('categories.status');
 });
 
 // CHECK MIDDLEWARE

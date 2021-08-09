@@ -1,17 +1,10 @@
 @extends('layouts/app1')
 @section('content')
     @php
-    $options = ['nameField' => 'username', 'hasFilter' => true, 'hasSearch' => true, 'hasSort' => true];
+    $options = ['nameField' => 'name', 'hasFilter' => true, 'hasSearch' => true, 'hasSort' => true];
     $theadData = [
-        ['field' => 'username'],
-        ['field' => 'email'],
-        [
-            'field' => 'group_id',
-            'label' => 'Group',
-            'value' => function ($item) {
-                return $item->group->name;
-            },
-        ],
+        ['field' => 'name'],
+        ['field' => 'slug'],
         ['field' => 'status'],
         [
             'field' => 'created_at',

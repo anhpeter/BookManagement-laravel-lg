@@ -90,4 +90,3 @@
         <!-- DELETE ITEM MODAL -->
         @include('partials/delete_item_modal')
     </div>
-

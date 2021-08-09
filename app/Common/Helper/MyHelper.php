@@ -33,6 +33,7 @@ class MyHelper
 
     public static function toPlural($controller)
     {
-        return $controller.'s';
+        $controller = preg_replace('/y$/', 'ie', $controller);
+        return $controller . 's';
     }
 }

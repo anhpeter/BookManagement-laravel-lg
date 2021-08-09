@@ -1,8 +1,9 @@
 @php
-$formAction = route('users.store');
+$controller = 'user';
+$formAction = route(MyHelper::toPlural($controller) . '.store');
 $formMethod = 'POST';
 if ($formType === 'edit') {
-    $formAction = route('users.update', ['user' => $item->id]);
+    $formAction = route(MyHelper::toPlural($controller) . '.update', [$controller => $item->id]);
     $formMethod = 'PUT';
 }
 
@@ -39,4 +40,4 @@ $formData = [
     ],
 ];
 @endphp
-<x-form :method="$formMethod" :action="$formAction" :formData="$formData" form-for="user"></x-form>
+<x-form :method="$formMethod" :action="$formAction" :formData="$formData" form-for="{{$controller}}"></x-form>

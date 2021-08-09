@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Helper\Message;
 use App\Common\Helper\MyHelper;
 use Illuminate\Http\Request;
 
@@ -34,8 +35,8 @@ abstract class BaseController extends Controller
 
     protected function handleSaveResult($affected)
     {
-        if ($affected > 0 || $affected == true) return Redirect()->back()->with(['message' => 'Save successfully!', 'status' => 'success']);
-        else return redirect()->back()->with(['message' => 'No thing to change!'])->withInput();
+        if ($affected > 0 || $affected == true) return Redirect()->back()->with(['message' => Message::$saved, 'status' => 'success']);
+        else return redirect()->back()->with(['message' => Message::$noChanges])->withInput();
     }
 
     protected function isSaveSuccess()
@@ -47,6 +48,6 @@ abstract class BaseController extends Controller
     {
         $field = 'status';
         $this->mainModel->updateFieldById($id, $field, $value);
-        return redirect()->back()->with(['message' => 'Status updated successfully']);
+        return redirect()->back()->with(['message' => sprintf(Message::$fieldUpdated, ucfirst($field))]);
     }
 }

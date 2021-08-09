@@ -2,11 +2,43 @@
 
 namespace App\Models;
 
-use BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Category extends BaseModel
 {
     use HasFactory;
+
+    function __construct()
+    {
+        parent::__construct('category');
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'slug',
+        'status',
+    ];
+
+    // RELATIONS
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
+
+    // MANIPULATE
+    public function insert($item)
+    {
+        $modelItem = new $this();
+        $modelItem->name = $item['name'];
+        $modelItem->slug = $item['slug'];
+        $modelItem->status = $item['status'];
+        $result = $modelItem->save();
+        return $result;
+    }
 }
