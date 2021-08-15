@@ -26,14 +26,4 @@ class Group extends BaseModel
     {
         return $this->hasMany(User::class);
     }
-
-    // MANIPULATE
-    public function insert($item)
-    {
-        $modelItem = new $this();
-        $modelItem->name = $item['name'];
-        $modelItem->status = $item['status'];
-        $result = $modelItem->save();
-        return $result;
-    }
 }

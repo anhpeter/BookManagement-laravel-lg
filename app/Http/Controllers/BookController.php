@@ -18,7 +18,7 @@ class BookController extends BaseController
 {
     function __construct()
     {
-        $this->middleware('permission:admin,editor')->except(['index']);
+        $this->middleware('role:admin,editor')->except(['index']);
         parent::__construct('book', new MainModel());
     }
     /**
@@ -64,8 +64,8 @@ class BookController extends BaseController
     {
         $this->runValidate($request)->validate();
         $item = $this->getItemFromRequest($request);
-        $savedItem = $this->mainModel->insert($item);
-        return $this->handleSaveResult($savedItem);
+        $this->mainModel->insert($item);
+        return $this->handleSaveResult();
     }
 
     /**
@@ -146,7 +146,7 @@ class BookController extends BaseController
     public function getFormViewParams()
     {
         return [
-            'statusSelectData' => MyConfig::getSelectDataForController($this->controller, 'status'),
+            'statusSelectData' => MyConfig::getSelectData('status', $this->controller),
             'categorySelectData' => $this->getCategorySelectData(),
             'authorSelectData' => $this->getAuthorSelectData(),
         ];
@@ -227,7 +227,7 @@ class BookController extends BaseController
                 'category_id' => trim($request->query('category_id_filter', 'all')),
             ],
             'filterData' => [
-                'status' => MyConfig::getSelectDataForController($this->controller, 'status'),
+                'status' => MyConfig::getSelectData('status', $this->controller),
                 'author_id' => $this->getAuthorSelectData(),
                 'category_id' => $this->getCategorySelectData(),
             ],

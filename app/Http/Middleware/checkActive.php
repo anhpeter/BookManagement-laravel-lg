@@ -6,7 +6,7 @@ use App\Common\Helper\Message;
 use Closure;
 use Illuminate\Http\Request;
 
-class checkPermission
+class checkActive
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,9 @@ class checkPermission
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!$request->user()->hasRole($roles))
-            return redirect()->back()->with(['message' => Message::$noPermission]);
+        if (!$request->user()->isActive()) {
+            return route('login');
+        }
         return $next($request);
     }
 }

@@ -33,7 +33,7 @@ abstract class BaseController extends Controller
         return ['controller' => $this->controller];
     }
 
-    protected function handleSaveResult($affected)
+    protected function handleSaveResult($affected = 1)
     {
         if ($affected > 0 || $affected == true) return Redirect()->back()->with(['message' => Message::$saved, 'status' => 'success']);
         else return redirect()->back()->with(['message' => Message::$noChanges])->withInput();
@@ -49,5 +49,9 @@ abstract class BaseController extends Controller
         $field = 'status';
         $this->mainModel->updateFieldById($id, $field, $value);
         return redirect()->back()->with(['message' => sprintf(Message::$fieldUpdated, ucfirst($field))]);
+    }
+
+    public function insert($item){
+
     }
 }

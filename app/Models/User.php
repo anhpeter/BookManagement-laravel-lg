@@ -50,6 +50,11 @@ class User extends BaseModel
         return false;
     }
 
+    public function isActive()
+    {
+        return $this->status == 'active';
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
@@ -58,19 +63,5 @@ class User extends BaseModel
     public function group()
     {
         return $this->belongsTo(Group::class);
-    }
-
-    // MANIPULATE
-    public function insert($item)
-    {
-        //$modelItem = new $this();
-        //$modelItem->username = $item['username'];
-        //$modelItem->email = $item['email'];
-        //$modelItem->group_id = $item['group_id'];
-        //$modelItem->status = $item['status'];
-        //$modelItem->password = $item['password'];
-        //$result = $modelItem->save();
-        $this->create($item);
-        return 1;
     }
 }

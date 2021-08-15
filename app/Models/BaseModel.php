@@ -105,4 +105,9 @@ class BaseModel extends Authenticatable
     {
         return $this->where('id', $id)->update([$field => $value]);
     }
+
+    public function insert($item)
+    {
+        return $this->create($item);
+    }
 }

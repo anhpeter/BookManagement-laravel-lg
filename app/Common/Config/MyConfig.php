@@ -28,22 +28,25 @@ class MyConfig
         return self::getConfig()['controller'][$controller][$itemName];
     }
 
-    public static function getSelectDataForController($controller, $itemName)
+    public static function getSelectData($itemName, $controller = null)
     {
         $template = self::getTemplate()[$itemName];
         unset($template['all']);
         $selectData =  array_map(function ($item) {
             return $item['content'];
         }, $template);
+        if ($controller != null) {
+            $itemNames = self::getConfig()['controller'][$controller][$itemName];
+            $selectData = $controller != null ? array_intersect_key($selectData, array_flip($itemNames)) : $selectData;
+        }
         return $selectData;
     }
 
     public static function getItemTemplateForController($controller, $itemName)
     {
         $itemNames = self::getConfig()['controller'][$controller][$itemName];
-        $itemNamesFlip = array_flip($itemNames);
         $template = self::getTemplate()[$itemName];
-        $result = array_intersect_key($template, $itemNamesFlip);
+        $result = array_intersect_key($template, array_flip($itemNames));
         return $result;
     }
 }

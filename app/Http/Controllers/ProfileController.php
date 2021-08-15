@@ -189,7 +189,7 @@ class ProfileController extends BaseController
     public function getFormViewParams()
     {
         return [
-            'statusSelectData' => MyConfig::getSelectDataForController('user', 'status'),
+            'statusSelectData' => MyConfig::getSelectData('status', 'user'),
             'groupSelectData' => $this->getGroupSelectData(),
         ];
     }

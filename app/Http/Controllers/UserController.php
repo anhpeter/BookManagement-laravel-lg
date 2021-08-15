@@ -62,8 +62,8 @@ class UserController extends BaseController
     {
         $this->runValidate($request)->validate();
         $item = $this->getItemFromRequest($request);
-        $savedItem = $this->mainModel->insert($item);
-        return $this->handleSaveResult($savedItem);
+        $this->mainModel->insert($item);
+        return $this->handleSaveResult();
     }
 
     /**
@@ -147,7 +147,7 @@ class UserController extends BaseController
     public function getFormViewParams()
     {
         return [
-            'statusSelectData' => MyConfig::getSelectDataForController($this->controller, 'status'),
+            'statusSelectData' => MyConfig::getSelectData('status', $this->controller),
             'groupSelectData' => $this->getGroupSelectData(),
         ];
     }
@@ -216,7 +216,7 @@ class UserController extends BaseController
                 'group_id' => trim($request->query('group_id_filter', 'all')),
             ],
             'filterData' => [
-                'status' => MyConfig::getSelectDataForController($this->controller, 'status'),
+                'status' => MyConfig::getSelectData('status', $this->controller),
                 'group_id' => $this->getGroupSelectData(),
             ],
             'search' => [

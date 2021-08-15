@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderBookTable extends Migration
+class CreateBookOrderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateOrderBookTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_book', function (Blueprint $table) {
+        Schema::create('book_order', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')->constraint(); //changed this line
             $table->foreignId('order_id')->constraint(); //changed this line
             $table->integer('price'); //changed this line
-            $table->integer('quantity'); //changed this line
+            $table->integer('qty'); //changed this line
         });
     }
 
@@ -29,6 +29,6 @@ class CreateOrderBookTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_book');
+        Schema::dropIfExists('book_order');
     }
 }

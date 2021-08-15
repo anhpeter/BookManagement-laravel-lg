@@ -18,6 +18,7 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->decimal('price');
+            $table->integer('inventory_qty')->default(100);
             $table->decimal('discount');
             $table->foreignId('author_id')->constrained('users');
             $table->foreignId('category_id')->constrained();

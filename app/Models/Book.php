@@ -22,6 +22,7 @@ class Book extends BaseModel
         'category_id',
         'status',
         'picture',
+        'inventory_qty',
         'short_description',
         'long_description',
     ];
@@ -38,21 +39,8 @@ class Book extends BaseModel
         return $this->belongsTo(Author::class);
     }
 
-    // MANIPULATE
-    public function insert($item)
+    public function orders()
     {
-        $modelItem = new $this();
-        $modelItem->title = $item['title'];
-        $modelItem->slug = $item['slug'];
-        $modelItem->price = $item['price'];
-        $modelItem->discount = $item['discount'];
-        $modelItem->author_id = $item['author_id'];
-        $modelItem->category_id = $item['category_id'];
-        $modelItem->status = $item['status'];
-        $modelItem->picture = $item['picture'];
-        $modelItem->short_description = $item['short_description'];
-        $modelItem->long_description = $item['long_description'];
-        $result = $modelItem->save();
-        return $result;
+        return $this->belongsTo(Order::class);
     }
 }

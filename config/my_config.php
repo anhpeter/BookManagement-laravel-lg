@@ -53,8 +53,22 @@ return [
 
             // book
             'title' => 'Search by title',
-            
-        ]
+
+        ],
+        'shipping_method' => [
+            'saving' => [
+                'content' => 'Saving',
+            ],
+            'fast' => [
+                'content' => 'Fast',
+            ],
+            'express' => [
+                'content' => 'Express',
+            ],
+        ],
+        'payment_method' => [
+            'cod' => ['content'=>'COD'],
+        ],
     ],
     'controller' => [
         'user' => [

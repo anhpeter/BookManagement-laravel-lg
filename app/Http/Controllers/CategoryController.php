@@ -14,7 +14,7 @@ class CategoryController extends BaseController
 {
     function __construct()
     {
-        $this->middleware('permission:admin,editor')->except(['index']);
+        $this->middleware('role:admin,editor')->except(['index']);
         parent::__construct('category', new MainModel());
     }
     /**
@@ -60,8 +60,8 @@ class CategoryController extends BaseController
     {
         $this->runValidate($request)->validate();
         $item = $this->getItemFromRequest($request);
-        $savedItem = $this->mainModel->insert($item);
-        return $this->handleSaveResult($savedItem);
+        $this->mainModel->insert($item);
+        return $this->handleSaveResult();
     }
 
     /**
@@ -133,7 +133,7 @@ class CategoryController extends BaseController
     public function getFormViewParams()
     {
         return [
-            'statusSelectData' => MyConfig::getSelectDataForController($this->controller, 'status'),
+            'statusSelectData' => MyConfig::getSelectData('status', $this->controller),
         ];
     }
 
@@ -185,7 +185,7 @@ class CategoryController extends BaseController
                 'status' => trim($request->query('status_filter', 'all')),
             ],
             'filterData' => [
-                'status' => MyConfig::getSelectDataForController($this->controller, 'status'),
+                'status' => MyConfig::getSelectData( 'status', $this->controller),
             ],
             'search' => [
                 'field' => trim($request->query('search_field', 'all')),

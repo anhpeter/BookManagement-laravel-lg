@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Common\Helper\Message;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,11 +17,8 @@ class checkRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-
-        if (!$request->user())
-            return redirect('login');
-        else if (!$request->user()->hasRole($roles))
-            return redirect('home');
+        if (!$request->user()->hasRole($roles))
+            return redirect()->back()->with(['message' => Message::$noPermission]);
         return $next($request);
     }
 }

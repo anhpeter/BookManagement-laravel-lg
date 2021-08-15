@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('/admin')->middleware('auth')->group(function () {
+Route::prefix('/admin')->middleware(['auth',])->group(function () {
 
     Route::get('/', [Dashboard::class, 'index']);
 
@@ -31,7 +31,7 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::resource('/profiles', ProfileController::class)->except(['index']);
         Route::get('/profiles/{userId}/create', [ProfileController::class, 'createProfile'])->name('create-profile');
     });
-    Route::prefix('/')->middleware('permission:admin')->group(function () {
+    Route::prefix('/')->middleware('role:admin')->group(function () {
         // user
         Route::resource('/users', UserController::class);
         Route::get('/users/status/{id}/{value}', [UserController::class, 'updateStatus'])->name('users.status');

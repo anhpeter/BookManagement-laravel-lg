@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BookFactory extends Factory
@@ -26,10 +28,9 @@ class BookFactory extends Factory
             'slug' => $this->faker->slug(),
             'price' => $this->faker->numberBetween(50000, 300000),
             'discount' => $this->faker->numberBetween(0, 100),
-            'category_id' => 1,
-            'author_id' => 1,
+            'category_id' => Category::all()->random()->id,
+            'author_id' => Author::all()->random()->id,
             'status' => 'active',
-            'picture' => 'https://dangchiviet.com/wp-content/uploads/2019/07/review-sach-nha-gia-kim.jpg',
             'short_description' => $this->faker->text(150),
             'long_description' => $this->faker->realText(350),
         ];

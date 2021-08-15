@@ -15,25 +15,14 @@ class Category extends BaseModel
     }
 
     protected $fillable = [
-            'name',
-            'slug',
-            'status',
+        'name',
+        'slug',
+        'status',
     ];
 
     // RELATIONS
     public function books()
     {
         return $this->hasMany(Book::class);
-    }
-
-    // MANIPULATE
-    public function insert($item)
-    {
-        $modelItem = new $this();
-        $modelItem->name = $item['name'];
-        $modelItem->slug = $item['slug'];
-        $modelItem->status = $item['status'];
-        $result = $modelItem->save();
-        return $result;
     }
 }
