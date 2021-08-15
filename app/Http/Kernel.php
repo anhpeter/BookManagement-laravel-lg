@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\checkAge;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -38,7 +37,6 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            //\App\http\Middleware\checkAge::class,
         ],
 
         'api' => [
@@ -64,5 +62,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'role' => \App\Http\Middleware\checkRole::class,
+        'permission' => \App\Http\Middleware\checkPermission::class,
+        'owner' => \App\Http\Middleware\checkOwner::class,
     ];
 }

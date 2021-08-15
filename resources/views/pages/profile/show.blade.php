@@ -10,7 +10,7 @@
                         <span>Edit</span>
                     </a>
                 @endif
-                <a href="{{ route('users.index') }}" class="btn btn-dark btn-sm">
+                <a href="{{ url()->previous() }}" class="btn btn-dark btn-sm">
                     <i class="fas fa-arrow-left fa-fw"></i>
                     <span>Back</span>
                 </a>

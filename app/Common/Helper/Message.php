@@ -8,4 +8,5 @@ class Message{
     public static $saved = 'Item saved successfully';
     public static $noChanges = 'No thing to change!';
     public static $fieldUpdated = '%s updated successfully';
+    public static $noPermission = 'You do not have permission to access this feature!';
 }

@@ -14,6 +14,7 @@ class CategoryController extends BaseController
 {
     function __construct()
     {
+        $this->middleware('permission:admin,editor')->except(['index']);
         parent::__construct('category', new MainModel());
     }
     /**

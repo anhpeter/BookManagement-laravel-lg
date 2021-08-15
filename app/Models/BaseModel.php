@@ -5,8 +5,9 @@ namespace App\Models;
 use App\Common\Config\MyConfig;
 use App\Common\Helper\MyHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class BaseModel extends Model
+class BaseModel extends Authenticatable
 {
     protected $controller;
     protected $fillable = [];

@@ -44,6 +44,12 @@ class User extends BaseModel
 
 
     // RELATIONS
+    public function hasRole($roles = array())
+    {
+        if (in_array($this->group->name, $roles)) return true;
+        return false;
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);

@@ -29,22 +29,25 @@ $controller = $controller ?? '';
         $manageProductClass = in_array($controller, ['category', 'book']) ? 'show' : '';
     @endphp
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-            aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Manage user</span>
-        </a>
-        <div id="collapseTwo" class="collapse {{ $manageUserClass }}" aria-labelledby="headingTwo"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'group') }}"
-                    href="/admin/groups">Group</a>
-                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'user') }}"
-                    href="{{ route('users.index') }}">User</a>
+    @if (Auth::user()->hasRole(['admin']))
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Manage user</span>
+            </a>
+            <div id="collapseTwo" class="collapse {{ $manageUserClass }}" aria-labelledby="headingTwo"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'group') }}"
+                        href="/admin/groups">Group</a>
+                    <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'user') }}"
+                        href="{{ route('users.index') }}">User</a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    @endif
+
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseproduct"
             aria-expanded="true" aria-controls="collapseTwo">

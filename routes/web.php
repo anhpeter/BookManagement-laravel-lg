@@ -22,18 +22,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware('auth')->group(function () {
 
     Route::get('/', [Dashboard::class, 'index']);
 
-    // user
-    Route::resource('/users', UserController::class);
-    Route::get('/users/status/{id}/{value}', [UserController::class, 'updateStatus'])->name('users.status');
-
     // profile
-    Route::resource('/profiles', ProfileController::class)->except(['index']);
+    Route::prefix('/')->middleware('owner')->group(function () {
+        Route::resource('/profiles', ProfileController::class)->except(['index']);
+        Route::get('/profiles/{userId}/create', [ProfileController::class, 'createProfile'])->name('create-profile');
+    });
+    Route::prefix('/')->middleware('permission:admin')->group(function () {
+        // user
+        Route::resource('/users', UserController::class);
+        Route::get('/users/status/{id}/{value}', [UserController::class, 'updateStatus'])->name('users.status');
 
-    Route::get('/profiles/{userId}/create', [ProfileController::class, 'createProfile'])->name('create-profile');
+
+        // group
+        Route::resource('/groups', GroupController::class);
+        Route::get('/groups/status/{id}/{value}', [GroupController::class, 'updateStatus'])->name('groups.status');
+    });
 
 
     // category
@@ -43,10 +50,6 @@ Route::prefix('/admin')->group(function () {
     // book
     Route::resource('/books', BookController::class);
     Route::get('/books/status/{id}/{value}', [BookController::class, 'updateStatus'])->name('books.status');
-
-    // group
-    Route::resource('/groups', GroupController::class);
-    Route::get('/groups/status/{id}/{value}', [GroupController::class, 'updateStatus'])->name('groups.status');
 });
 
 // DEFAULT
@@ -54,6 +57,8 @@ Route::get('/', function () {
     return redirect('/admin');
 });
 
+// AUTH
 Auth::routes();
 
+// HOME
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -6,10 +6,10 @@
         <div class="text-center">
             <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
         </div>
-        <form class="user" method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
-                <input type="email" name="email" class="form-control  form-control-user @error('email') is-invalid @enderror"
+                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                     placeholder="Enter Email Address..." autofocus autocomplete="email" value="{{ old('email') }}"
                     required>
 
@@ -20,7 +20,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <input name="password" type="password" class="form-control  form-control-user @error('password') is-invalid @enderror"
+                <input name="password" type="password" class="form-control @error('password') is-invalid @enderror"
                     placeholder="Password" value="{{ old('password') }}" required>
                 @error('password')
                     <span class="invalid-feedback" role="alert">
@@ -35,7 +35,7 @@
                     <label class="custom-control-label" for="remember">Remember Me</label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-user btn-block">Login </button>
+            <button type="submit" class="btn btn-primary">Login </button>
             <hr>
             <a href="index.html" class="btn btn-google btn-user btn-block">
                 <i class="fab fa-google fa-fw"></i> Login with Google

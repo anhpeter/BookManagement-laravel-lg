@@ -9,6 +9,7 @@ use App\Models\Profile;
 use App\Models\User as MainModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -160,7 +161,7 @@ class UserController extends BaseController
             'group_id' => $request->input('group_id'),
             'status' => $request->input('status'),
         ];
-        if ($request->input('password')) $item['password'] = $request->input('password');
+        if ($request->input('password')) $item['password'] = Hash::make($request->input('password'));
         return $item;
     }
 

@@ -31,7 +31,9 @@
                     @endforeach
 
                     <!-- ACTION COL -->
-                    <th>Action</th>
+                    @if (!Auth::user()->hasRole(['viewer']))
+                        <th>Action</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -67,11 +69,13 @@
                         @endforeach
 
                         <!-- ACTION  COL-->
-                        <td>
-                            <x-item-action-bar :controller="$controller" :id="$rowArr['id']"
-                                :name="$getNameValue($rowArr)">
-                            </x-item-action-bar>
-                        </td>
+                        @if (!Auth::user()->hasRole(['viewer']))
+                            <td>
+                                <x-item-action-bar :controller="$controller" :id="$rowArr['id']"
+                                    :name="$getNameValue($rowArr)">
+                                </x-item-action-bar>
+                            </td>
+                        @endif
                     </tr>
 
                     <!-- EMPTY MESSAGE -->
