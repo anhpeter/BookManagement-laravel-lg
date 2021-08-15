@@ -26,7 +26,7 @@ $controller = $controller ?? '';
 
     @php
         $manageUserClass = in_array($controller, ['user', 'group']) ? 'show' : '';
-        $manageProductClass = in_array($controller, ['category', 'book']) ? 'show' : '';
+        $manageProductClass = in_array($controller, ['category', 'book', 'order']) ? 'show' : '';
     @endphp
     <!-- Nav Item - Pages Collapse Menu -->
     @if (Auth::user()->hasRole(['admin']))
@@ -57,6 +57,8 @@ $controller = $controller ?? '';
         <div id="collapseproduct" class="collapse {{ $manageProductClass }}" aria-labelledby="headingTwo"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'order') }}"
+                    href="/admin/orders">Order</a>
                 <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'category') }}"
                     href="/admin/categories">Category</a>
                 <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'book') }}"

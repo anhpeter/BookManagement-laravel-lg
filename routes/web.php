@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
@@ -40,6 +41,10 @@ Route::prefix('/admin')->middleware(['auth',])->group(function () {
         // group
         Route::resource('/groups', GroupController::class);
         Route::get('/groups/status/{id}/{value}', [GroupController::class, 'updateStatus'])->name('groups.status');
+
+        // order
+        Route::resource('/orders', OrderController::class);
+        Route::get('/orders/status/{id}/{value}', [OrderController::class, 'updateStatus'])->name('orders.status');
     });
 
 

@@ -21,6 +21,22 @@ return [
                 'content' => 'In Active',
                 'class' => 'btn btn-warning',
             ],
+            'pending' => [
+                'content' => 'Pending',
+                'class' => 'btn btn-info',
+            ],
+            'processing' => [
+                'content' => 'Processing',
+                'class' => 'btn btn-warning',
+            ],
+            'shipped' => [
+                'content' => 'Shipped',
+                'class' => 'btn btn-success',
+            ],
+            'canceled' => [
+                'content' => 'Canceled',
+                'class' => 'btn btn-light',
+            ],
         ],
         'action' => [
             'view' => [
@@ -67,7 +83,7 @@ return [
             ],
         ],
         'payment_method' => [
-            'cod' => ['content'=>'COD'],
+            'cod' => ['content' => 'COD'],
         ],
     ],
     'controller' => [
@@ -98,6 +114,13 @@ return [
             'filter' => ['status'],
             'sort'   => ['name', 'status', 'created_at'],
             'search' => ['all', 'name'],
+        ],
+        'order' => [
+            'status' => ['all', 'pending', 'processing', 'shipped', 'canceled'],
+            'action' => ['view', 'delete'],
+            'filter' => ['status'],
+            'sort'   => ['status', 'created_at'],
+            'search' => ['all'],
         ],
     ],
 ];
