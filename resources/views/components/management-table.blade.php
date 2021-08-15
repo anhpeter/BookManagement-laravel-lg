@@ -49,22 +49,22 @@
 
                         <!-- OTHER COLS -->
                         @foreach ($theadData as $key => $column)
-                            @php
-                                $value;
-                                if (isset($column['value'])) {
-                                    $value = $column['value']($row);
-                                } else {
-                                    $value = $getTdValue($row, $column);
-                                }
-                            @endphp
                             <td>
-                                @switch($column['field'])
-                                    @case('status')
-                                        <x-status :controller="$controller" :id="$rowArr['id']" :value="$value"></x-status>
-                                    @break
-                                    @default
-                                        {!! $value !!}
-                                @endswitch
+                                @if (isset($column['value']))
+                                    {!! $column['value']($row) !!}
+                                @else
+                                    @php
+                                        $value = $getTdValue($row, $column);
+                                    @endphp
+                                    @switch($column['field'])
+                                        @case('status')
+                                            <x-status :controller="$controller" :id="$rowArr['id']" :value="$value">
+                                            </x-status>
+                                        @break
+                                        @default
+                                            {!! $value !!}
+                                    @endswitch
+                                @endif
                             </td>
                         @endforeach
 

@@ -18,7 +18,12 @@
                 return $item->category->name;
             },
         ],
-        ['field' => 'price'],
+        [
+            'field' => 'price',
+            'value'=>function($item){
+                return MyHelper::priceFormat($item->price);
+            }
+        ],
         ['field' => 'status'],
         [
             'field' => 'created_at',

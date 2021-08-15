@@ -10,7 +10,7 @@
                         <span>Edit</span>
                     </a>
                 @endif
-                <a href="{{ url()->previous() }}" class="btn btn-dark btn-sm">
+                <a href="{{Auth::user()->hasRole(['admin']) ? route('users.index') : url()->previous() }}" class="btn btn-dark btn-sm">
                     <i class="fas fa-arrow-left fa-fw"></i>
                     <span>Back</span>
                 </a>

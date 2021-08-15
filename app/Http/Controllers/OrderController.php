@@ -65,7 +65,8 @@ class OrderController extends BaseController
      */
     public function show($id)
     {
-        //
+        $item = $this->mainModel->find($id);
+        return view('pages/' . $this->controller . '/show', ['item' => $item]);
     }
 
     /**
@@ -97,7 +98,9 @@ class OrderController extends BaseController
      */
     public function destroy($id)
     {
-        $this->mainModel->where('id', $id)->delete();
+        $order = $this->mainModel::find($id);
+        $order->books()->detach();
+        $order->delete();
         return redirect()->back()->with(['message' => Message::$deleted]);
     }
 
@@ -136,5 +139,12 @@ class OrderController extends BaseController
     }
     public function runValidate(Request $request, $id = null)
     {
+    }
+
+    public function updateOrderStatus(Request $request, $id)
+    {
+        $field = 'status';
+        $this->mainModel->updateFieldById($id, $field, $request->input('status'));
+        return redirect()->back()->with(['message' => sprintf(Message::$fieldUpdated, ucfirst($field))]);
     }
 }

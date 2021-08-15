@@ -10,9 +10,9 @@ class ViewHelper
 {
     public static function getStatusBadgeHtml($value)
     {
-        $color = $value == 'active' ? 'success' : 'warning';
-        $content = MyConfig::getTemplate()['status'][$value]['content'];
-        $result = sprintf('<span class="badge badge-lg badge-%s">%s</span>', $color, $content);
+        $template = MyConfig::getTemplate()['status'][$value];
+        $color = str_replace('btn btn-', '', MyConfig::getTemplate()['status'][$value]['class']);
+        $result = sprintf('<span class="badge badge-lg badge-%s">%s</span>', $color, $template['content']);
         return $result;
     }
 
@@ -20,7 +20,7 @@ class ViewHelper
     {
         if ($value)
             return sprintf(
-                '<div class="data-row">
+                '<div class="data-row align-items-center">
                         <span class="label">%s</span>
                         <div class="value">%s</div>
                     </div> ',
@@ -40,7 +40,8 @@ class ViewHelper
         return asset('storage/img/common/avatar-empty.png');
     }
 
-    public static function getMenuItemClass($currentController, $controller){
+    public static function getMenuItemClass($currentController, $controller)
+    {
         return $currentController === $controller ? 'active' : '';
     }
     //

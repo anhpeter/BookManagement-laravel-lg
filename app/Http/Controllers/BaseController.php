@@ -51,7 +51,4 @@ abstract class BaseController extends Controller
         return redirect()->back()->with(['message' => sprintf(Message::$fieldUpdated, ucfirst($field))]);
     }
 
-    public function insert($item){
-
-    }
 }

@@ -4,12 +4,23 @@
     $options = ['nameField' => 'id', 'hasFilter' => true, 'hasSearch' => true, 'hasSort' => true];
     $theadData = [
         [
+            'field' => 'username',
+            'value' => function ($item) {
+                return $item->user->username;
+            },
+        ],
+        [
             'field' => 'email',
             'value' => function ($item) {
                 return $item->user->email;
             },
         ],
-        ['field' => 'status'],
+        [
+            'field' => 'status',
+            'value' => function($item){
+                return ViewHelper::getStatusBadgeHtml($item->status);
+            }
+        ],
         [
             'field' => 'created_at',
             'label' => 'Created',

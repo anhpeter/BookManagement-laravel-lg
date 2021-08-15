@@ -7,6 +7,7 @@ use App\View\Components\FilterBar;
 use App\View\Components\Form;
 use App\View\Components\ItemActionBar;
 use App\View\Components\ManagementTable;
+use App\View\Components\OrderCart;
 use App\View\Components\PageHeading;
 use App\View\Components\Pagination;
 use App\View\Components\SearchBar;
@@ -43,5 +44,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('search-bar', SearchBar::class);
         Blade::component('filter-bar', FilterBar::class);
         Blade::component('pagination', Pagination::class);
+        Blade::component('order-cart', OrderCart::class);
     }
 }

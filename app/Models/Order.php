@@ -24,7 +24,6 @@ class Order extends BaseModel
         'payment_method',
     ];
 
-
     // RELATIONS
     public function user()
     {
@@ -33,6 +32,6 @@ class Order extends BaseModel
 
     public function books()
     {
-        return $this->belongsToMany(Book::class);
+        return $this->belongsToMany(Book::class)->withPivot(['price', 'qty']);
     }
 }

@@ -24,10 +24,7 @@ let domSlt = {
 
     // index
     filterSelect: $('.filter-select'),
-
-
-
-
+    updateSelect: $('.update-select'),
 }
 
 $(document).ready(function () {
@@ -45,8 +42,13 @@ function setupEvents() {
     setImageInputFileChange();
     setSearchBar();
     setFilterSelect();
+    setUpdateSelect();
+}
 
-
+function setUpdateSelect() {
+    domSlt.updateSelect.change(function (e) {
+        $(this).parents('form').submit();
+    })
 }
 
 function setFilterSelect() {
@@ -54,8 +56,8 @@ function setFilterSelect() {
         let key = $(this).attr('name') + "_filter";
         let urlParams = new URLSearchParams(location.search);
         urlParams.set(key, $(this).val());
-        let link =  `/admin/${getController()}?${urlParams.toString()}`;
-        location.href =link;
+        let link = `/admin/${getController()}?${urlParams.toString()}`;
+        location.href = link;
     });
 }
 

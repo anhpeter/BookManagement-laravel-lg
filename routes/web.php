@@ -41,11 +41,11 @@ Route::prefix('/admin')->middleware(['auth',])->group(function () {
         // group
         Route::resource('/groups', GroupController::class);
         Route::get('/groups/status/{id}/{value}', [GroupController::class, 'updateStatus'])->name('groups.status');
-
-        // order
-        Route::resource('/orders', OrderController::class);
-        Route::get('/orders/status/{id}/{value}', [OrderController::class, 'updateStatus'])->name('orders.status');
     });
+
+    // order
+    Route::resource('/orders', OrderController::class);
+    Route::post('/orders/status/{order}', [OrderController::class, 'updateOrderStatus'])->name('orders.status');
 
 
     // category

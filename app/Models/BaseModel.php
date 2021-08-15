@@ -52,7 +52,7 @@ class BaseModel extends Authenticatable
         return $result;
     }
 
-    private function applySearch($query, $searchParams)
+    protected function applySearch($query, $searchParams)
     {
         $field = $searchParams['field'];
         $value = trim($searchParams['value']);
@@ -85,7 +85,7 @@ class BaseModel extends Authenticatable
         return $query;
     }
 
-    private function applySort($query, $sortParams)
+    protected function applySort($query, $sortParams)
     {
         $field = $sortParams['field'];
         $value = trim($sortParams['value']);

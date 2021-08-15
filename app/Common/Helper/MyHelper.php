@@ -36,4 +36,9 @@ class MyHelper
         $controller = preg_replace('/y$/', 'ie', $controller);
         return $controller . 's';
     }
+
+    public static function priceFormat($value)
+    {
+        return number_format($value, 0,'.', ',');
+    }
 }
