@@ -8,19 +8,16 @@ class User extends BaseModel
 {
     use HasFactory;
 
-    function __construct()
+    function __construct(array $attributes = array())
     {
-        parent::__construct('user');
+        parent::__construct($attributes, 'user');
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'username',
+        'name',
         'email',
+        'email_verified_at',
         'group_id',
         'password',
         'status',
@@ -60,13 +57,14 @@ class User extends BaseModel
     // MANIPULATE
     public function insert($item)
     {
-        $modelItem = new $this();
-        $modelItem->username = $item['username'];
-        $modelItem->email = $item['email'];
-        $modelItem->group_id = $item['group_id'];
-        $modelItem->status = $item['status'];
-        $modelItem->password = $item['password'];
-        $result = $modelItem->save();
-        return $result;
+        //$modelItem = new $this();
+        //$modelItem->username = $item['username'];
+        //$modelItem->email = $item['email'];
+        //$modelItem->group_id = $item['group_id'];
+        //$modelItem->status = $item['status'];
+        //$modelItem->password = $item['password'];
+        //$result = $modelItem->save();
+        $this->create($item);
+        return 1;
     }
 }

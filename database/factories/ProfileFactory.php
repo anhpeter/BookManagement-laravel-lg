@@ -23,7 +23,7 @@ class ProfileFactory extends Factory
     {
         return [
             'user_id' => 1,
-            'fullname' => $this->faker->name(),
+            'name' => $this->faker->name(),
             'address' => $this->faker->address(),
             'birthday' => $this->faker->date(),
         ];

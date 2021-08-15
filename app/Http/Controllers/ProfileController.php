@@ -204,7 +204,7 @@ class ProfileController extends BaseController
     public function getItemFromRequest(Request $request)
     {
         $item = [
-            'fullname' => $request->input('fullname'),
+            'name' => $request->input('name'),
             'address' => $request->input('address'),
             'phone' => $request->input('phone'),
             'birthday' => $request->input('birthday'),
@@ -217,7 +217,7 @@ class ProfileController extends BaseController
     {
         // rules
         $rules = [
-            'fullname' => 'bail|required|',
+            'name' => 'bail|required|',
             'phone' => 'nullable|digits:10',
             'address' => '',
             'birthday' => '',

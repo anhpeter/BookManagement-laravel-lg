@@ -46,7 +46,7 @@
                                 </div>
                             @endif
                             <div class="data-box ml-3 order-0 order-md-1 ">
-                                {!! ViewHelper::getInfoDataRow('Full name', $item->fullname) !!}
+                                {!! ViewHelper::getInfoDataRow('Full name', $item->name) !!}
                                 {!! ViewHelper::getInfoDataRow('Address', $item->address) !!}
                                 {!! ViewHelper::getInfoDataRow('Phone', $item->phone) !!}
                                 {!! ViewHelper::getInfoDataRow('Birthday', $item->birthday) !!}

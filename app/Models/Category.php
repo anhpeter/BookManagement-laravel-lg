@@ -9,20 +9,15 @@ class Category extends BaseModel
 {
     use HasFactory;
 
-    function __construct()
+    function __construct(array $attributes = array())
     {
-        parent::__construct('category');
+        parent::__construct($attributes, 'category');
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name',
-        'slug',
-        'status',
+            'name',
+            'slug',
+            'status',
     ];
 
     // RELATIONS

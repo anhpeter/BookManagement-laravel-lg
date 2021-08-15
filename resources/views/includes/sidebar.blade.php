@@ -1,3 +1,6 @@
+@php
+$controller = $controller ?? '';
+@endphp
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -53,7 +56,8 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'category') }}"
                     href="/admin/categories">Category</a>
-                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'book') }}" href="/admin/books">Book</a>
+                <a class="collapse-item {{ ViewHelper::getMenuItemClass($controller, 'book') }}"
+                    href="/admin/books">Book</a>
             </div>
         </div>
     </li>

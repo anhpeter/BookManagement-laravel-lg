@@ -9,8 +9,10 @@ class Author extends BaseModel
 {
     use HasFactory;
 
-    function __construct()
+    function __construct(array $attributes = array())
     {
-        parent::__construct('author');
+        parent::__construct($attributes, 'author');
     }
+
+    protected $fillable = ['name', 'status'];
 }

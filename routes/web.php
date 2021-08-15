@@ -6,8 +6,8 @@ use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\checkAge;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +21,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/test', function () {
-    return View('pages/test');
-});
 
 Route::prefix('/admin')->group(function () {
 
@@ -53,16 +49,11 @@ Route::prefix('/admin')->group(function () {
     Route::get('/groups/status/{id}/{value}', [GroupController::class, 'updateStatus'])->name('groups.status');
 });
 
-// CHECK MIDDLEWARE
-Route::get('/check-age/{age?}', function () {
-    return redirect('/admin');
-})->middleware(checkAge::class);
-
-Route::get('/fail', function () {
-    return 'Fail!';
-});
-
 // DEFAULT
 Route::get('/', function () {
     return redirect('/admin');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

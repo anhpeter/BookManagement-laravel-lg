@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('status');
             $table->foreignId('created_by')->nullable();
             $table->foreignId('modified_by')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

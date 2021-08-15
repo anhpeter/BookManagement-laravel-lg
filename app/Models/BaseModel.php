@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class BaseModel extends Model
 {
     protected $controller;
-
-    function __construct($controller)
+    protected $fillable = [];
+    function __construct(array $attributes = array(), $controller)
     {
+        parent::__construct($attributes);
         $this->controller = $controller;
     }
 

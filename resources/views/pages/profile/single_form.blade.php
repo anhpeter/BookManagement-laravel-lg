@@ -12,8 +12,8 @@ $formData = [
         'value' => old('current_avatar', $item->avatar),
     ],
     [
-        'name' => 'fullname',
-        'value' => old('fullname', $item->fullname),
+        'name' => 'name',
+        'value' => old('name', $item->name),
     ],
     [
         'type' => 'number',

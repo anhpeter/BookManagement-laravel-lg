@@ -8,16 +8,11 @@ class Book extends BaseModel
 {
     use HasFactory;
 
-    function __construct()
+    function __construct(array $attributes = array())
     {
-        parent::__construct('book');
+        parent::__construct($attributes, 'book');
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'title',
         'slug',

@@ -9,20 +9,17 @@ class Group extends BaseModel
 {
     use HasFactory;
 
-    function __construct()
+    function __construct(array $attributes = array())
     {
-        parent::__construct('group');
+        parent::__construct($attributes, 'group');
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
+        'description',
         'status',
     ];
+
 
     // RELATIONS
     public function users()
