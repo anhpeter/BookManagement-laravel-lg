@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         Group::factory(3)->create();
         Profile::factory(5)->create();
-        User::factory(10);
+        User::factory(10)->create();
         Category::factory(5)->create();
         Author::factory(3)->create();
         Book::factory(30)->create();
