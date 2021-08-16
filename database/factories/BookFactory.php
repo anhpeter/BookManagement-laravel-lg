@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class BookFactory extends Factory
 {
@@ -23,9 +24,10 @@ class BookFactory extends Factory
      */
     public function definition()
     {
+        $title = $this->faker->text(80);
         return [
-            'title' => $this->faker->text(),
-            'slug' => $this->faker->slug(),
+            'title' => $title,
+            'slug' => Str::slug($title),
             'price' => $this->faker->numberBetween(50000, 300000),
             'discount' => $this->faker->numberBetween(0, 100),
             'category_id' => Category::all()->random()->id,

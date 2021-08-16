@@ -22,7 +22,7 @@ return [
                 'class' => 'btn btn-warning',
             ],
             'pending' => [
-                'content' => 'Pending',
+                'content' => 'Pending Payment',
                 'class' => 'btn btn-info',
             ],
             'processing' => [
@@ -31,10 +31,26 @@ return [
             ],
             'shipped' => [
                 'content' => 'Shipped',
+                'class' => 'btn btn-light',
+            ],
+            'on_hold' => [
+                'content' => 'On Hold',
+                'class' => 'btn btn-danger',
+            ],
+            'completed' => [
+                'content' => 'Completed',
                 'class' => 'btn btn-success',
+            ],
+            'refunded' => [
+                'content' => 'Refunded',
+                'class' => 'btn btn-dark',
             ],
             'canceled' => [
                 'content' => 'Canceled',
+                'class' => 'btn btn-light',
+            ],
+            'failed' => [
+                'content' => 'Failed',
                 'class' => 'btn btn-light',
             ],
         ],
@@ -116,7 +132,9 @@ return [
             'search' => ['all', 'name'],
         ],
         'order' => [
-            'status' => ['all', 'pending', 'processing', 'shipped', 'canceled'],
+            'status' => ['all', 'pending', 'processing', 'shipped', 'on_hold', 'completed',  'canceled', 'refunded', 'failed'],
+            'payment_method' => ['all', 'cod'],
+            'shipping_method' => ['all', 'saving', 'fast', 'express'],
             'action' => ['view', 'delete'],
             'filter' => ['status'],
             'sort'   => ['status', 'created_at'],

@@ -42,13 +42,6 @@ function setupEvents() {
     setImageInputFileChange();
     setSearchBar();
     setFilterSelect();
-    setUpdateSelect();
-}
-
-function setUpdateSelect() {
-    domSlt.updateSelect.change(function (e) {
-        $(this).parents('form').submit();
-    })
 }
 
 function setFilterSelect() {

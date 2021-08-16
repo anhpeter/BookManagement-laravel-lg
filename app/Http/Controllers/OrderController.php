@@ -7,6 +7,7 @@ use App\Common\Helper\Message;
 use App\Models\Order as MainModel;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends BaseController
 {
@@ -88,6 +89,26 @@ class OrderController extends BaseController
      */
     public function update(Request $request, $id)
     {
+        $validator = $this->runValidate($request, $id);
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $item = $this->getItemFromRequest($request);
+        $affected = $this->mainModel->where('id', $id)->update($item);
+        return $this->handleSaveResult($affected);
+    }
+
+    public function getItemFromRequest(Request $request)
+    {
+        $item = [
+            'status' => $request->input('status'),
+            'shipping_method' => $request->input('shipping_method'),
+            'payment_method' => $request->input('payment_method'),
+        ];
+        return $item;
     }
 
     /**
@@ -139,6 +160,14 @@ class OrderController extends BaseController
     }
     public function runValidate(Request $request, $id = null)
     {
+
+        $rules = [
+            'status' => 'required',
+            'shipping_method' => 'required',
+            'payment_method' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        return $validator;
     }
 
     public function updateOrderStatus(Request $request, $id)

@@ -16,9 +16,9 @@ class ViewHelper
         return $result;
     }
 
-    public static function getInfoDataRow($label, $value)
+    public static function getInfoDataRow($label, $value = '(null)')
     {
-        if ($value)
+        //if ($value)
             return sprintf(
                 '<div class="data-row align-items-center">
                         <span class="label">%s</span>
@@ -28,7 +28,7 @@ class ViewHelper
                 $value
             );
 
-        return '';
+        //return '';
     }
 
     public static function getAvatarPath($filename)

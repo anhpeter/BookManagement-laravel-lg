@@ -10,17 +10,20 @@
             @endphp
             <div class="mr-3 d-flex align-items-center my-1">
                 <span class="filter-label">{{ $getLabel($field) }}</span>
-                <div class="btn-group btn-group-sm ml-3">
+                <div class="btn-group btn-group-sm ml-3" style="flex-wrap: wrap">
                     @foreach ($data as $key => $value)
-                        <a class="btn btn-{{ $isSelected($field, $key) ? 'primary' : 'light' }}"
-                            href="{{ $getFilterLink($field, $key) }}">
-                            <span>{{ $value }}</span>
-                            @if ($key !== 'all')
-                                <span class="badge badge-info">
-                                    {{ $getQty($field, $key) }}
-                                </span>
-                            @endif
-                        </a>
+                        @if ($key == 'all' || $getQty($field, $key) != 0)
+                            <a class="btn btn-{{ $isSelected($field, $key) ? 'primary' : 'light' }}"
+                                href="{{ $getFilterLink($field, $key) }}">
+                                <span>{{ $value }}</span>
+                                @if ($key !== 'all')
+                                    <span class="badge badge-info">
+                                        {{ $getQty($field, $key) }}
+                                    </span>
+                                @endif
+                            </a>
+                        @endif
+
                     @endforeach
                 </div>
             </div>

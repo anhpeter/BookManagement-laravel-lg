@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Profile;
 use Illuminate\Database\Seeder;
 use \App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,8 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Group::factory(3)->create();
-        Profile::factory(5)->create();
+        Group::factory()->create();
         User::factory(10)->create();
         Category::factory(5)->create();
         Author::factory(3)->create();

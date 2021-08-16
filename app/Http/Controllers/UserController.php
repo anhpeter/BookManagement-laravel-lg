@@ -172,8 +172,8 @@ class UserController extends BaseController
         $uniqueUsername = sprintf('|unique:%s,%s', $this->getTableName(), 'username');
         $uniqueEmail = sprintf('|unique:%s,%s', $this->getTableName(), 'email');
         if ($id != null) {
-            $uniqueUsername = $uniqueUsername . ',' . $id;
-            $uniqueEmail = $uniqueEmail . ',' . $id;
+            $uniqueUsername .= ',' . $id;
+            $uniqueEmail .= ',' . $id;
         }
 
         // rules

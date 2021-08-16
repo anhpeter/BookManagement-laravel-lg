@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Common\Config\MyConfig;
 use App\Models\Order;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,7 +27,7 @@ class OrderFactory extends Factory
         $shippingMethods = MyConfig::getSelectData('shipping_method');
         $paymentMethods = MyConfig::getSelectData('payment_method');
         return [
-            'user_id' => User::all()->random()->id,
+            'user_id' => Profile::factory()->create()->user_id,
             'address' => $this->faker->address(),
             'status' => 'pending',
             'note' => $this->faker->text(),

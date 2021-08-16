@@ -19,24 +19,35 @@
                         <hr class="divider">
                     </div>
                     <div class="data-box">
+                        {!! ViewHelper::getInfoDataRow('Name', $item->user->profile->name) !!}
                         {!! ViewHelper::getInfoDataRow('Username', $item->user->username) !!}
                         {!! ViewHelper::getInfoDataRow('Email', $item->user->email) !!}
-                        {!! ViewHelper::getInfoDataRow('Group', $item->user->group->name) !!}
+                        {!! ViewHelper::getInfoDataRow('Group', Str::ucfirst($item->user->group->name)) !!}
                     </div>
                 </div>
 
                 <!-- ORDER INFO -->
                 <div class="col-lg-8">
                     <div class="my-3">
-                        <h3>Order Detail</h3>
+                        <h3>Order Detail - <span class="text-primary">#{{ $item->id}}</span></h3>
                         <hr class="divider">
                     </div>
-                    <form action="{{ route('orders.status', ['order' => $item->id]) }}" method="post" class="data-box">
+                    <form action="{{ route('orders.update', ['order' => $item->id]) }}" method="post" class="data-box">
                         @csrf
-                        {!! ViewHelper::getInfoDataRow('Status', Form::select('status', MyConfig::getSelectData('status', 'order'), $item->status, ['class' => 'custom-select update-select'])) !!}
+                        @method('put')
+                        {!! ViewHelper::getInfoDataRow('Status', Form::select('status', MyConfig::getSelectData('status', $controller), $item->status, ['class' => 'custom-select update-select'])) !!}
+                        {!! ViewHelper::getInfoDataRow('Shipping method', Form::select('shipping_method', MyConfig::getSelectData('shipping_method', $controller), $item->shipping_method, ['class' => 'custom-select update-select'])) !!}
+                        {!! ViewHelper::getInfoDataRow('payment method', Form::select('payment_method', MyConfig::getSelectData('payment_method', $controller), $item->payment_method, ['class' => 'custom-select update-select'])) !!}
+                        <div class="data-row ">
+                            <span class="label"></span>
+                            <div class="value text-right">
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                        </div>
                     </form>
                     <div class="data-box">
                         {!! ViewHelper::getInfoDataRow('Phone', $item->phone) !!}
+                        {!! ViewHelper::getInfoDataRow('Note', $item->note) !!}
                         {!! ViewHelper::getInfoDataRow('Address', $item->address) !!}
                         <div class="mt-4">
                             <x-order-cart :order="$item" />
