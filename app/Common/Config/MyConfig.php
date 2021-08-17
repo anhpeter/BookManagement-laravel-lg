@@ -12,6 +12,11 @@ class MyConfig
         return Config::get('my_config');
     }
 
+    public static function getMailData()
+    {
+        return self::getConfig()['mail'];
+    }
+
     public static function getTemplate()
     {
         return self::getConfig()['template'];

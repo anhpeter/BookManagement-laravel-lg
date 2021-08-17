@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Common\Config\MyConfig;
 use App\Common\Helper\Message;
+use App\Mail\OrderShipped;
 use App\Models\Order as MainModel;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -97,10 +98,20 @@ class OrderController extends BaseController
                 ->withErrors($validator)
                 ->withInput();
         }
-        $item = $this->getItemFromRequest($request);
-        $affected = $this->mainModel->where('id', $id)->update($item);
-        $this->sendMail();
-        return $this->handleSaveResult($affected);
+        $item = $this->mainModel->find($id);
+        $formItem = $this->getItemFromRequest($request);
+        $affectedRows =  0;
+        $message = '';
+        if ($this->anyChange($item, $formItem)) {
+            $status = $item['status'];
+            $affectedRows = $item->update($formItem);
+            // if order status change => send mail
+            if ($item->status != $status) {
+                $this->sendMail($item);
+                $message = sprintf(Message::$mailSentDueTo, $this->controller . ' status changed');
+            }
+        }
+        return $this->handleSaveResult($affectedRows, $message);
     }
 
     public function getItemFromRequest(Request $request)
@@ -176,25 +187,15 @@ class OrderController extends BaseController
         return $validator;
     }
 
-    public function updateOrderStatus(Request $request, $id)
+    public function sendMail($item)
     {
-        $field = 'status';
-        $this->mainModel->updateFieldById($id, $field, $request->input('status'));
-        return redirect()->back()->with(['message' => sprintf(Message::$fieldUpdated, ucfirst($field))]);
-    }
+        $to_name = $item->user->profile->name;
+        //$to_email = $item->user->email;
+        $to_email = 'peteranh99@gmail.com';
 
-    public function sendMail()
-    {
-        $to_name = 'Webfullstack';
-        $to_email = 'webfullstack99@gmail.com';
-        $data = array(
-            'name' => 'Peter Anh',
-            'body' => 'A test mail'
-        );
-
-        Mail::send('emails.mail', $data, function ($message) use ($to_name, $to_email) {
-            $message->to($to_email, $to_name)->subject('Laravel Test Mail');
-            $message->from('peteranh99.test@gmail.com', 'Test Mail');
+        Mail::send('emails.order_status', ['order' => $item], function ($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)->subject(MyConfig::getMailData()['name']);
+            $message->from(MyConfig::getMailData()['username'], 'Order Status Notification');
         });
     }
 }

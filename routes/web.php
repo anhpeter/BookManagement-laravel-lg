@@ -43,7 +43,6 @@ Route::prefix('/admin')->middleware(['auth',])->group(function () {
 
     // order
     Route::resource('/orders', OrderController::class);
-    Route::post('/orders/status/{order}', [OrderController::class, 'updateOrderStatus'])->name('orders.status');
 
 
     // category

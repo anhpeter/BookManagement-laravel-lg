@@ -33,10 +33,18 @@ abstract class BaseController extends Controller
         return ['controller' => $this->controller];
     }
 
-    protected function handleSaveResult($affected = 1)
+    protected function handleSaveResult($affected = 1, $successMessage = '')
     {
-        if ($affected > 0 || $affected == true) return Redirect()->back()->with(['message' => Message::$saved, 'status' => 'success']);
-        else return redirect()->back()->with(['message' => Message::$noChanges])->withInput();
+        if ($affected > 0 || $affected == true)
+            return Redirect()->back()->with([
+                'type' => 'success',
+                'message' => $successMessage ?? Message::$saved, 'status' => 'success',
+            ]);
+        else
+            return redirect()->back()->with([
+                'type' => 'dark',
+                'message' => Message::$noChanges
+            ])->withInput();
     }
 
     protected function isSaveSuccess()
@@ -47,8 +55,14 @@ abstract class BaseController extends Controller
     public function updateStatus($id, $value)
     {
         $field = 'status';
-        $this->mainModel->updateFieldById($id, $field, $value);
-        return redirect()->back()->with(['message' => sprintf(Message::$fieldUpdated, ucfirst($field))]);
+        $affectedRows = $this->mainModel->updateFieldById($id, $field, $value);
+        return $this->handleSaveResult($affectedRows, sprintf(Message::$fieldUpdated, ucfirst($field)));
     }
 
+    public function anyChange($item, $formItem)
+    {
+        $itemArr = MyHelper::convertStdClassToArray($item);
+        $diff = array_diff_assoc($formItem, $itemArr);
+        return !empty($diff);
+    }
 }

@@ -6,6 +6,7 @@ use App\View\Components\Alert;
 use App\View\Components\FilterBar;
 use App\View\Components\Form;
 use App\View\Components\ItemActionBar;
+use App\View\Components\MailOrderCart;
 use App\View\Components\ManagementTable;
 use App\View\Components\OrderCart;
 use App\View\Components\PageHeading;
@@ -45,5 +46,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('filter-bar', FilterBar::class);
         Blade::component('pagination', Pagination::class);
         Blade::component('order-cart', OrderCart::class);
+        Blade::component('mail-order-cart', MailOrderCart::class);
     }
 }

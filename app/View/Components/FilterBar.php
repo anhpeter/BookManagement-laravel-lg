@@ -59,9 +59,9 @@ class FilterBar extends Component
         ); //sprintf('/admin/%s?%s=%s',  MyHelper::toPlural($this->controller),  MyHelper::convertFieldToFilterName($field), $key );
     }
 
-    public function isSelectFilter($field)
+    public function isSelectFilter($field, $data)
     {
-        return strpos($field, '_id');
+        return strpos($field, '_id') || count($data) > 4;
     }
 
     public function getSelectDataWithCount($field, $selectData)
@@ -73,7 +73,7 @@ class FilterBar extends Component
         array_walk($data, function (&$a, $b) use ($count) {
             $a = sprintf('%s (%s)', $a, $count[$b]);
         });
-        return ['all'=>'All'] + $data;
+        return ['all' => 'All'] + $data;
     }
 
     public function getLabel($field)

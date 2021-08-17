@@ -4,7 +4,7 @@
             $data = $filterData[$field];
         @endphp
         <!-- LABEL-->
-        @if ($isSelectFilter($field) === false)
+        @if ($isSelectFilter($field, $data) === false)
             @php
                 $data = array_merge(['all' => 'All'], $data);
             @endphp

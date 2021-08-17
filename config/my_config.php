@@ -1,5 +1,9 @@
 <?php
 return [
+    'mail' => [
+        'name' => 'BOOK SHOP',
+        'username' => 'peteranh99.test@gmail.com',
+    ],
     'prefix' => [
         'admin' => 'admin',
     ],
