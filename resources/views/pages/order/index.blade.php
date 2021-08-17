@@ -4,22 +4,24 @@
     $options = ['nameField' => 'id', 'hasFilter' => true, 'hasSearch' => true, 'hasSort' => true];
     $theadData = [
         [
-            'field' => 'username',
+            'field' => 'shipping_method',
+            'label' => 'Shipping Method',
             'value' => function ($item) {
-                return $item->user->username;
+                return Str::ucfirst($item->shipping_method) ;
             },
         ],
         [
-            'field' => 'email',
+            'field' => 'payment_method',
+            'label' => 'Payment Method',
             'value' => function ($item) {
-                return $item->user->email;
+                return Str::ucfirst($item->payment_method) ;
             },
         ],
         [
             'field' => 'status',
-            'value' => function($item){
+            'value' => function ($item) {
                 return ViewHelper::getStatusBadgeHtml($item->status);
-            }
+            },
         ],
         [
             'field' => 'created_at',

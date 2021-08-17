@@ -99,7 +99,12 @@ return [
             ],
         ],
         'payment_method' => [
-            'cod' => ['content' => 'COD'],
+            'cod' => [
+                'content' => 'COD',
+            ],
+            'transfer' => [
+                'content' => 'Transfer',
+            ],
         ],
     ],
     'controller' => [
@@ -133,10 +138,10 @@ return [
         ],
         'order' => [
             'status' => ['all', 'pending', 'processing', 'shipped', 'on_hold', 'completed',  'canceled', 'refunded', 'failed'],
-            'payment_method' => ['all', 'cod'],
+            'payment_method' => ['all', 'cod', 'transfer'],
             'shipping_method' => ['all', 'saving', 'fast', 'express'],
             'action' => ['view', 'delete'],
-            'filter' => ['status'],
+            'filter' => ['status', 'shipping_method', 'payment_method'],
             'sort'   => ['status', 'created_at'],
             'search' => ['all'],
         ],

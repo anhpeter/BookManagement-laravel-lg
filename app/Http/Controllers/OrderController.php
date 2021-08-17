@@ -7,6 +7,7 @@ use App\Common\Helper\Message;
 use App\Models\Order as MainModel;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends BaseController
@@ -98,6 +99,7 @@ class OrderController extends BaseController
         }
         $item = $this->getItemFromRequest($request);
         $affected = $this->mainModel->where('id', $id)->update($item);
+        $this->sendMail();
         return $this->handleSaveResult($affected);
     }
 
@@ -147,9 +149,13 @@ class OrderController extends BaseController
             ],
             'filters' => [
                 'status' => trim($request->query('status_filter', 'all')),
+                'shipping_method' => trim($request->query('shipping_method_filter', 'all')),
+                'payment_method' => trim($request->query('payment_method_filter', 'all')),
             ],
             'filterData' => [
                 'status' => MyConfig::getSelectData('status', $this->controller,),
+                'shipping_method' => MyConfig::getSelectData('shipping_method', $this->controller,),
+                'payment_method' => MyConfig::getSelectData('payment_method', $this->controller,),
             ],
             'search' => [
                 'field' => trim($request->query('search_field', 'all')),
@@ -175,5 +181,20 @@ class OrderController extends BaseController
         $field = 'status';
         $this->mainModel->updateFieldById($id, $field, $request->input('status'));
         return redirect()->back()->with(['message' => sprintf(Message::$fieldUpdated, ucfirst($field))]);
+    }
+
+    public function sendMail()
+    {
+        $to_name = 'Webfullstack';
+        $to_email = 'webfullstack99@gmail.com';
+        $data = array(
+            'name' => 'Peter Anh',
+            'body' => 'A test mail'
+        );
+
+        Mail::send('emails.mail', $data, function ($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)->subject('Laravel Test Mail');
+            $message->from('peteranh99.test@gmail.com', 'Test Mail');
+        });
     }
 }

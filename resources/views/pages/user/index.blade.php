@@ -9,7 +9,7 @@
             'field' => 'group_id',
             'label' => 'Group',
             'value' => function ($item) {
-                return $item->group->name;
+                return Str::ucfirst($item->group->name) ;
             },
         ],
         ['field' => 'status'],

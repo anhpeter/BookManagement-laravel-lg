@@ -16,17 +16,17 @@ class ViewHelper
         return $result;
     }
 
-    public static function getInfoDataRow($label, $value = '(null)')
+    public static function getInfoDataRow($label, $value)
     {
         //if ($value)
-            return sprintf(
-                '<div class="data-row align-items-center">
+        return sprintf(
+            '<div class="data-row align-items-center">
                         <span class="label">%s</span>
                         <div class="value">%s</div>
                     </div> ',
-                $label,
-                $value
-            );
+            $label,
+            $value ?? '<span class="text-muted">(empty)</span>'
+        );
 
         //return '';
     }
