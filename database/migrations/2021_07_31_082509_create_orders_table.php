@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('shipping_method')->default('fast');
             $table->string('payment_method')->default('cod');
+            $table->string('total_price')->default(0);
             $table->foreignId('created_by')->nullable();
             $table->foreignId('modified_by')->nullable();
             $table->timestamps();

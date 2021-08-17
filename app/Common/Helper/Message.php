@@ -9,5 +9,6 @@ class Message{
     public static $noChanges = 'No thing to change!';
     public static $fieldUpdated = '%s updated successfully';
     public static $noPermission = 'You do not have permission to access this feature!';
+    public static $notificationMailSent = 'An notification email have been sent to client';
     public static $mailSentDueTo = 'An email have been sent to your client due to %s';
 }

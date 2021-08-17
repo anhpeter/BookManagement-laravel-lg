@@ -24,7 +24,7 @@ class BookFactory extends Factory
      */
     public function definition()
     {
-        $title = $this->faker->text(80);
+        $title = $this->faker->unique(true)->text(80);
         return [
             'title' => $title,
             'slug' => Str::slug($title),

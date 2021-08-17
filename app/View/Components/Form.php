@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Common\Config\MyConfig;
+use App\Common\Helper\MyHelper;
 use Illuminate\View\Component;
 
 class Form extends Component
@@ -45,7 +46,7 @@ class Form extends Component
 
     public function getInputLabel($input)
     {
-        return  $input['label'] ?? ucfirst($input['name']);
+        return  $input['label'] ?? MyHelper::convertFieldToLabel($input['name']);
     }
 
     public function getInputContainerClass($input)

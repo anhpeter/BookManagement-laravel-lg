@@ -27,7 +27,7 @@ $tdStyle = 'border: 1px solid #dddddd; text-align: left; padding: 8px;color: bla
         <tr>
             <td style="{{ $tdStyle }}" colspan="4"></td>
             <th style="{{ $tdStyle }} font-weight:bold" colspan="1000">Total:
-                {{ MyHelper::priceFormat($getTotal()) }}</th>
+                {{ MyHelper::priceFormat($order->total_price) }}</th>
         </tr>
     </tfoot>
 </table>

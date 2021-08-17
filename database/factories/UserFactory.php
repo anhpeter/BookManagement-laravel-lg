@@ -32,8 +32,8 @@ class UserFactory extends Factory
         //'remember_token' => Str::random(10),
         //];
         return [
-            'username' => $this->faker->userName(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'username' => $this->faker->unique(true)->userName(),
+            'email' => $this->faker->unique(true)->safeEmail(),
             'email_verified_at' => now(),
             'group_id' => 1,
             'status' => 'active',

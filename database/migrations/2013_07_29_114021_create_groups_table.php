@@ -17,7 +17,7 @@ class CreateGroupsTable extends Migration
             $table->id('id');
             $table->string('name');
             $table->string('status');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('modified_by')->nullable();
             $table->timestamps();

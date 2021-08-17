@@ -7,10 +7,8 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Group;
 use App\Models\Order;
-use App\Models\Profile;
 use Illuminate\Database\Seeder;
 use \App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,18 +20,23 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Group::factory()->create();
-        User::factory(10)->create();
-        Category::factory(5)->create();
-        Author::factory(3)->create();
-        Book::factory(30)->create();
-        Order::factory(10)->create()->each(function ($order) {
-            $ids = range(1, 30);
+        User::factory(100)->create();
+        Category::factory(10)->create();
+        Author::factory(10)->create();
+        Book::factory(300)->create();
+        Order::factory(100)->create()->each(function ($order) {
+            $ids = range(1, 300);
             shuffle($ids); //trộn
             $sliced = array_slice($ids, 0, array_rand(range(0, 7), 1));
+            $total = 0;
             foreach ($sliced as $id) {
                 $item = Book::find($id);
-                $order->books()->attach($item->id, ['price' => $item->price, 'qty' => array_rand(array_flip(range(1, 5)), 1)]);
+                $price = $item->price;
+                $qty = array_rand(array_flip(range(1, 5)), 1);
+                $total += $price * $qty;
+                $order->books()->attach($item->id, ['price' => $price, 'qty' => $qty]);
             }
+            $order->update(['total_price' => $total]);
         });
     }
 }

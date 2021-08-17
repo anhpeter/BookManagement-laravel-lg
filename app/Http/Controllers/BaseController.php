@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 
 abstract class BaseController extends Controller
 {
-    protected $pageParams;
+    protected $pageParams = [
+        'pagination' => [
+            'itemsPerPage' => 10,
+            'pageRange' => 3,
+        ],
+    ];
     protected $controller;
     protected $mainModel;
 
@@ -33,7 +38,7 @@ abstract class BaseController extends Controller
         return ['controller' => $this->controller];
     }
 
-    protected function handleSaveResult($affected = 1, $successMessage = '')
+    protected function handleSaveResult($affected = 1, $successMessage = null)
     {
         if ($affected > 0 || $affected == true)
             return Redirect()->back()->with([

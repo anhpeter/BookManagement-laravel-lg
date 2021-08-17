@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\View\Components\Alert;
+use App\View\Components\Checkbox;
 use App\View\Components\FilterBar;
 use App\View\Components\Form;
 use App\View\Components\ItemActionBar;
@@ -47,5 +48,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('pagination', Pagination::class);
         Blade::component('order-cart', OrderCart::class);
         Blade::component('mail-order-cart', MailOrderCart::class);
+        Blade::component('checkbox', Checkbox::class);
     }
 }

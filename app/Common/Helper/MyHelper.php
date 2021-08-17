@@ -39,6 +39,14 @@ class MyHelper
 
     public static function priceFormat($value)
     {
-        return number_format($value, 0,'.', ',');
+        return number_format($value, 0, '.', ',');
+    }
+
+    public static function convertFieldToLabel($field)
+    {
+        $field = str_replace('_id', '', $field);
+        $field = str_replace('_', ' ', $field);
+        $field = ucfirst($field);
+        return $field;
     }
 }

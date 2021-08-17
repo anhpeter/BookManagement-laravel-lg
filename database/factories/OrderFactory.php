@@ -24,12 +24,13 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
-        $shippingMethods = MyConfig::getSelectData('shipping_method');
-        $paymentMethods = MyConfig::getSelectData('payment_method');
+        $status = array_flip(MyConfig::getSelectData('status', 'order'));
+        $shippingMethods = array_flip(MyConfig::getSelectData('shipping_method', 'order'));
+        $paymentMethods = array_flip(MyConfig::getSelectData('payment_method', 'order'));
         return [
             'user_id' => Profile::factory()->create()->user_id,
             'address' => $this->faker->address(),
-            'status' => 'pending',
+            'status' => $status[array_rand($status, 1)],
             'note' => $this->faker->text(),
             'phone' => '0886862961',
             'shipping_method' => $shippingMethods[array_rand($shippingMethods, 1)],

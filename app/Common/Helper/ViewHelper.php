@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Storage;
 
 class ViewHelper
 {
-    public static function getStatusBadgeHtml($value)
+    public static function getStatusBadgeHtml($value, $field = 'status')
     {
-        $template = MyConfig::getTemplate()['status'][$value];
-        $color = str_replace('btn btn-', '', MyConfig::getTemplate()['status'][$value]['class']);
+        $template = MyConfig::getTemplate()[$field][$value];
+        $color = str_replace('btn btn-', '', MyConfig::getTemplate()[$field][$value]['class']);
         $result = sprintf('<span class="badge badge-lg badge-%s">%s</span>', $color, $template['content']);
         return $result;
     }

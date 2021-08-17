@@ -25,10 +25,6 @@ return [
                 'content' => 'In Active',
                 'class' => 'btn btn-warning',
             ],
-            'pending' => [
-                'content' => 'Pending Payment',
-                'class' => 'btn btn-info',
-            ],
             'processing' => [
                 'content' => 'Processing',
                 'class' => 'btn btn-warning',
@@ -36,10 +32,6 @@ return [
             'shipped' => [
                 'content' => 'Shipped',
                 'class' => 'btn btn-light',
-            ],
-            'on_hold' => [
-                'content' => 'On Hold',
-                'class' => 'btn btn-danger',
             ],
             'completed' => [
                 'content' => 'Completed',
@@ -94,20 +86,25 @@ return [
         'shipping_method' => [
             'saving' => [
                 'content' => 'Saving',
+                'class' => 'btn btn-info',
             ],
             'fast' => [
                 'content' => 'Fast',
+                'class' => 'btn btn-info',
             ],
             'express' => [
                 'content' => 'Express',
+                'class' => 'btn btn-info',
             ],
         ],
         'payment_method' => [
             'cod' => [
                 'content' => 'COD',
+                'class' => 'btn btn-info',
             ],
             'transfer' => [
                 'content' => 'Transfer',
+                'class' => 'btn btn-info',
             ],
         ],
     ],
@@ -135,18 +132,18 @@ return [
         ],
         'group' => [
             'status' => ['all', 'active', 'inactive'],
-            'action' => ['edit', 'delete'],
+            'action' => ['edit'],
             'filter' => ['status'],
             'sort'   => ['name', 'status', 'created_at'],
             'search' => ['all', 'name'],
         ],
         'order' => [
-            'status' => ['all', 'pending', 'processing', 'shipped', 'on_hold', 'completed',  'canceled', 'refunded', 'failed'],
+            'status' => ['all', 'processing', 'shipping', 'shipped', 'completed', 'canceled', 'refunded', 'failed'],
             'payment_method' => ['all', 'cod', 'transfer'],
             'shipping_method' => ['all', 'saving', 'fast', 'express'],
             'action' => ['view', 'delete'],
             'filter' => ['status', 'shipping_method', 'payment_method'],
-            'sort'   => ['status', 'created_at'],
+            'sort'   => ['payment_method', 'shipping_method', 'status', 'created_at'],
             'search' => ['all'],
         ],
     ],

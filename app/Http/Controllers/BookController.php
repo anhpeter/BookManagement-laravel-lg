@@ -214,7 +214,7 @@ class BookController extends BaseController
     {
         $this->pageParams = [
             'pagination' => [
-                'itemsPerPage' => 5,
+                'itemsPerPage' => 10,
                 'pageRange' => 3,
             ],
             'sort' => [

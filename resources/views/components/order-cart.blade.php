@@ -26,7 +26,7 @@
     <tfoot>
         <tr>
             <td colspan="4"></td>
-            <th colspan="1000">Total: {{ MyHelper::priceFormat($getTotal()) }}</th>
+            <th colspan="1000">Total: {{ MyHelper::priceFormat($order->total_price) }}</th>
         </tr>
     </tfoot>
 </table>

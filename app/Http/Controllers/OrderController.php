@@ -101,14 +101,13 @@ class OrderController extends BaseController
         $item = $this->mainModel->find($id);
         $formItem = $this->getItemFromRequest($request);
         $affectedRows =  0;
-        $message = '';
+        $message = null;
         if ($this->anyChange($item, $formItem)) {
             $status = $item['status'];
             $affectedRows = $item->update($formItem);
-            // if order status change => send mail
-            if ($item->status != $status) {
+            if ($item->status != $status && $request->has('send-email')) {
                 $this->sendMail($item);
-                $message = sprintf(Message::$mailSentDueTo, $this->controller . ' status changed');
+                $message = sprintf(Message::$notificationMailSent, $this->controller . ' status changed');
             }
         }
         return $this->handleSaveResult($affectedRows, $message);
@@ -118,8 +117,6 @@ class OrderController extends BaseController
     {
         $item = [
             'status' => $request->input('status'),
-            'shipping_method' => $request->input('shipping_method'),
-            'payment_method' => $request->input('payment_method'),
         ];
         return $item;
     }
@@ -180,8 +177,6 @@ class OrderController extends BaseController
 
         $rules = [
             'status' => 'required',
-            'shipping_method' => 'required',
-            'payment_method' => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
         return $validator;

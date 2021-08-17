@@ -29,10 +29,4 @@ class OrderCart extends Component
         return view('components.order-cart');
     }
 
-    public function getTotal()
-    {
-        return array_reduce(MyHelper::convertStdClassToArray($this->order->books), function ($prev, $item) {
-            return $prev + $item['price'] * $item['pivot']['qty'];
-        }, 0);
-    }
 }
