@@ -10,6 +10,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -102,11 +103,12 @@ class ProfileController extends BaseController
         if (parent::isSaveSuccess())  return redirect(route('profiles.show', ['profile' => $id]));
         $item = DB::table(parent::getTableName())->where('user_id', '=', $id)->first();
         $user = DB::table('users')->find($id);
+        $formView = Auth::user()->group->name == 'admin' ? 'combine-form' : 'form';
         return view(
-            'pages/' . $this->controller . '/combine-form',
+            'pages/' . $this->controller . '/' . $formView,
             array_merge(
                 $this->getFormViewParams(),
-                ['formType' => 'edit', 'item' => $item, 'user' => $user]
+                ['formType' => 'edit', 'item' => $item, 'user' => $user, 'userId'=> $user->id]
             )
 
         );

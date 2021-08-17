@@ -172,26 +172,25 @@ class CategoryController extends BaseController
     // SET PAGE PARAMS
     protected function setPageParams(Request $request)
     {
-        $this->pageParams = [
-            'pagination' => [
-                'itemsPerPage' => 5,
-                'pageRange' => 3,
-            ],
-            'sort' => [
-                'field' => trim($request->query('sort_field', 'created_at')),
-                'value' => trim($request->query('sort_value', 'desc')),
-            ],
-            'filters' => [
-                'status' => trim($request->query('status_filter', 'all')),
-            ],
-            'filterData' => [
-                'status' => MyConfig::getSelectData( 'status', $this->controller),
-            ],
-            'search' => [
-                'field' => trim($request->query('search_field', 'all')),
-                'value' => trim($request->query('search_value', '')),
-            ],
-            'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
-        ];
+        $this->pageParams = array_merge(
+            $this->pageParams,
+            [
+                'sort' => [
+                    'field' => trim($request->query('sort_field', 'created_at')),
+                    'value' => trim($request->query('sort_value', 'desc')),
+                ],
+                'filters' => [
+                    'status' => trim($request->query('status_filter', 'all')),
+                ],
+                'filterData' => [
+                    'status' => MyConfig::getSelectData('status', $this->controller),
+                ],
+                'search' => [
+                    'field' => trim($request->query('search_field', 'all')),
+                    'value' => trim($request->query('search_value', '')),
+                ],
+                'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
+            ]
+        );
     }
 }

@@ -146,31 +146,30 @@ class OrderController extends BaseController
     // SET PAGE PARAMS
     protected function setPageParams(Request $request)
     {
-        $this->pageParams = [
-            'pagination' => [
-                'itemsPerPage' => 5,
-                'pageRange' => 3,
-            ],
-            'sort' => [
-                'field' => trim($request->query('sort_field', 'created_at')),
-                'value' => trim($request->query('sort_value', 'desc')),
-            ],
-            'filters' => [
-                'status' => trim($request->query('status_filter', 'all')),
-                'shipping_method' => trim($request->query('shipping_method_filter', 'all')),
-                'payment_method' => trim($request->query('payment_method_filter', 'all')),
-            ],
-            'filterData' => [
-                'status' => MyConfig::getSelectData('status', $this->controller,),
-                'shipping_method' => MyConfig::getSelectData('shipping_method', $this->controller,),
-                'payment_method' => MyConfig::getSelectData('payment_method', $this->controller,),
-            ],
-            'search' => [
-                'field' => trim($request->query('search_field', 'all')),
-                'value' => trim($request->query('search_value', '')),
-            ],
-            'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
-        ];
+        $this->pageParams = array_merge(
+            $this->pageParams,
+            [
+                'sort' => [
+                    'field' => trim($request->query('sort_field', 'created_at')),
+                    'value' => trim($request->query('sort_value', 'desc')),
+                ],
+                'filters' => [
+                    'status' => trim($request->query('status_filter', 'all')),
+                    'shipping_method' => trim($request->query('shipping_method_filter', 'all')),
+                    'payment_method' => trim($request->query('payment_method_filter', 'all')),
+                ],
+                'filterData' => [
+                    'status' => MyConfig::getSelectData('status', $this->controller,),
+                    'shipping_method' => MyConfig::getSelectData('shipping_method', $this->controller,),
+                    'payment_method' => MyConfig::getSelectData('payment_method', $this->controller,),
+                ],
+                'search' => [
+                    'field' => trim($request->query('search_field', 'all')),
+                    'value' => trim($request->query('search_value', '')),
+                ],
+                'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
+            ]
+        );
     }
     public function runValidate(Request $request, $id = null)
     {

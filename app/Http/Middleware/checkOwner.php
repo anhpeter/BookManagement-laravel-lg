@@ -17,8 +17,10 @@ class checkOwner
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user()->hasRole(['admin']) && $request->profile != $request->user()->id)
-            return redirect()->back()->with(['message' => Message::$noPermission]);
+        if (!$request->user()->hasRole(['admin']) && ($request->profile != $request->user()->id || $request->userId == $request->user()->id)) {
+            if ($request->userId != $request->user()->id)
+                return redirect()->back()->with(['message' => Message::$noPermission]);
+        }
         return $next($request);
     }
 }

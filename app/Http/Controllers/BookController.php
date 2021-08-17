@@ -212,30 +212,29 @@ class BookController extends BaseController
     // SET PAGE PARAMS
     protected function setPageParams(Request $request)
     {
-        $this->pageParams = [
-            'pagination' => [
-                'itemsPerPage' => 10,
-                'pageRange' => 3,
-            ],
-            'sort' => [
-                'field' => trim($request->query('sort_field', 'created_at')),
-                'value' => trim($request->query('sort_value', 'desc')),
-            ],
-            'filters' => [
-                'status' => trim($request->query('status_filter', 'all')),
-                'author_id' => trim($request->query('author_id_filter', 'all')),
-                'category_id' => trim($request->query('category_id_filter', 'all')),
-            ],
-            'filterData' => [
-                'status' => MyConfig::getSelectData('status', $this->controller),
-                'author_id' => $this->getAuthorSelectData(),
-                'category_id' => $this->getCategorySelectData(),
-            ],
-            'search' => [
-                'field' => trim($request->query('search_field', 'all')),
-                'value' => trim($request->query('search_value', '')),
-            ],
-            'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
-        ];
+        $this->pageParams = array_merge(
+            $this->pageParams,
+            [
+                'sort' => [
+                    'field' => trim($request->query('sort_field', 'created_at')),
+                    'value' => trim($request->query('sort_value', 'desc')),
+                ],
+                'filters' => [
+                    'status' => trim($request->query('status_filter', 'all')),
+                    'author_id' => trim($request->query('author_id_filter', 'all')),
+                    'category_id' => trim($request->query('category_id_filter', 'all')),
+                ],
+                'filterData' => [
+                    'status' => MyConfig::getSelectData('status', $this->controller),
+                    'author_id' => $this->getAuthorSelectData(),
+                    'category_id' => $this->getCategorySelectData(),
+                ],
+                'search' => [
+                    'field' => trim($request->query('search_field', 'all')),
+                    'value' => trim($request->query('search_value', '')),
+                ],
+                'searchData' => MyConfig::getItemTemplateForController($this->controller, 'search'),
+            ]
+        );
     }
 }
