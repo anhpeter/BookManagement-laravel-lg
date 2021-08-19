@@ -85,9 +85,17 @@
 
 /* form */
 
-.img-container-circle {
-    border-radius: 100px;
+.form-circle-picture .img-container {
+    width: 200px;
+    height: 200px;
     overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+}
+
+.img-container {
+    max-width: 300px;
+    position: relative;
 }
 
 .edit-image-btn {
@@ -114,8 +122,8 @@ form .img-container:hover .edit-image-btn {
     width: 100%;
 }
 
-.cropper-crop-box,
-.cropper-view-box {
+.form-circle-picture .cropper-crop-box,
+.form-circle-picture .cropper-view-box {
     border-radius: 50%;
 }
 

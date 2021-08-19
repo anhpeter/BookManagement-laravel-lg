@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileUpload
 {
-    public function handlePicture($base64, $uploadFolder, $oldPicName = null)
+    public function uploadBase64Picture($base64, $uploadFolder, $oldPicName = null)
     {
         $uploadedFileName = null;
         if (MyHelper::isBase64($base64)) {

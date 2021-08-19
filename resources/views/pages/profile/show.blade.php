@@ -43,7 +43,8 @@
                         <div class="d-flex align-items-lg-center justify-content-between justify-content-md-start">
                             @if ($item->avatar)
                                 <div class="circle-picture order-1 order-md-0">
-                                    <img src="{{ ViewHelper::getAvatarPath($item->avatar) }}" class="img-fluid " />
+                                    <img src="{{ ViewHelper::getPhotoSrc($item->avatar, $controller) }}"
+                                        class="img-fluid " />
                                 </div>
                             @endif
                             <div class="data-box ml-3 order-0 order-md-1 ">

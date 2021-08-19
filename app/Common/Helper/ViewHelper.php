@@ -31,11 +31,13 @@ class ViewHelper
         //return '';
     }
 
-    public static function getAvatarPath($filename)
+    public static function getPhotoSrc($filename, $controller)
     {
+        $picContainerFolderName = $controller === 'profile' ? 'avatar' : 'picture';
+        $filePath = sprintf('img/%s/%s/', $controller, $picContainerFolderName);
         if ($filename) {
-            $path = asset('storage/img/profile/avatar/' . $filename);
-            if (Storage::disk('public')->exists('img/profile/avatar/' . $filename)) return $path;
+            $path = asset(sprintf('storage/%s%s', $filePath, $filename));
+            if (Storage::disk('public')->exists($filePath)) return $path;
         }
         return asset('storage/img/common/avatar-empty.png');
     }

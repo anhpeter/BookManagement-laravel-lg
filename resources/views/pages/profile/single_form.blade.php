@@ -35,7 +35,7 @@ $formData = [
         'hasPicture' => true,
         'hasCropModal' => true,
         'value' => old('avatar', $item->avatar),
-        'pictureSrc' => ViewHelper::getAvatarPath(old('avatar', $item->avatar)),
+        'pictureSrc' => ViewHelper::getPhotoSrc(old('avatar', $item->avatar), $controller),
     ],
     [
         'type' => 'submit',

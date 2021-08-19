@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\Config\MyConfig;
+use App\Common\Helper\FileUpload;
 use App\Common\Helper\MyHelper;
 use App\Common\Helper\ViewHelper;
 use App\Models\Group;
@@ -53,11 +54,11 @@ class ProfileController extends BaseController
      */
     public function createProfile($userId)
     {
-        if (parent::isSaveSuccess())  return redirect(route('profiles.show', ['profile' => $userId]));
+        if ($this->isSaveSuccess())  return redirect(route('profiles.show', ['profile' => $userId]));
         $item = new Profile();
         return view(
             'pages/' . $this->controller . '/form',
-            parent::getViewParams(),
+            $this->getViewParams(),
             ['formType' => 'add', 'item' => $item, 'userId' => $userId]
         );
     }
@@ -74,8 +75,8 @@ class ProfileController extends BaseController
         $item = $this->getItemFromRequest($request);
         $item['user_id'] = $request->input('userId');
         $item = $this->handlePicture($item, $request->input('avatar'));
-        $affected = DB::table(parent::getTableName())->insert($item);
-        return parent::handleSaveResult($affected);
+        $affected = DB::table($this->getTableName())->insert($item);
+        return $this->handleSaveResult($affected);
     }
 
     /**
@@ -87,7 +88,7 @@ class ProfileController extends BaseController
     public function show($id)
     {
         //
-        $item = DB::table(parent::getTableName())->where('user_id', '=', $id)->first();
+        $item = DB::table($this->getTableName())->where('user_id', '=', $id)->first();
         $user = DB::table('users')->find($id);
         return view('pages/' . $this->controller . '/show', ['item' => $item, 'user' => $user]);
     }
@@ -100,15 +101,15 @@ class ProfileController extends BaseController
      */
     public function edit($id)
     {
-        if (parent::isSaveSuccess())  return redirect(route('profiles.show', ['profile' => $id]));
-        $item = DB::table(parent::getTableName())->where('user_id', '=', $id)->first();
+        if ($this->isSaveSuccess())  return redirect(route('profiles.show', ['profile' => $id]));
+        $item = DB::table($this->getTableName())->where('user_id', '=', $id)->first();
         $user = DB::table('users')->find($id);
         $formView = Auth::user()->group->name == 'admin' ? 'combine-form' : 'form';
         return view(
             'pages/' . $this->controller . '/' . $formView,
             array_merge(
                 $this->getFormViewParams(),
-                ['formType' => 'edit', 'item' => $item, 'user' => $user, 'userId'=> $user->id]
+                ['formType' => 'edit', 'item' => $item, 'user' => $user, 'userId' => $user->id]
             )
 
         );
@@ -132,47 +133,17 @@ class ProfileController extends BaseController
                 ->withInput();
         }
         $item = $this->getItemFromRequest($request);
-        $item = $this->handlePicture($item, $request->input('avatar'), $request->input('current_avatar'));
-        $affected = DB::table(parent::getTableName())->where('user_id', $id)->update($item);
-        return parent::handleSaveResult($affected);
+
+        $fileUpload = new FileUpload();
+        $uploadedFilename = $fileUpload->uploadBase64Picture($request->input('avatar'), $this->getUploadedFolder(), $request->input('current_avatar'));
+        if ($uploadedFilename != null) $item['avatar'] = $uploadedFilename;
+        $affected = DB::table($this->getTableName())->where('user_id', $id)->update($item);
+        return $this->handleSaveResult($affected);
     }
 
-    public function handlePicture($item, $base64, $currentPicture = null)
+    public static function getUploadedFolder()
     {
-        if (MyHelper::isBase64($base64)) {
-            $avatarFileName = $this->uploadPicture($base64, $currentPicture);
-            if ($avatarFileName != null) {
-                $item['avatar'] = $avatarFileName;
-            }
-        }
-        return $item;
-    }
-
-
-    public function uploadPicture($base64, $currentPicture = null)
-    {
-        if (MyHelper::isBase64($base64)) {
-            $data = substr($base64, strpos($base64, ',') + 1);
-            $data = base64_decode($data);
-            $arr = range('0', '9');
-            shuffle($arr);
-            $filename = join('', $arr) . '.jpg';
-            Storage::disk('public')->put($this->getAvatarPath($filename), $data);
-
-            // delete if exist
-            if ($currentPicture) {
-                if (Storage::disk('public')->exists($this->getAvatarPath($currentPicture))) {
-                    Storage::disk('public')->delete($this->getAvatarPath($currentPicture));
-                }
-            }
-            return $filename;
-        }
-        return null;
-    }
-
-    public static function getAvatarPath($filename)
-    {
-        return  '/img/profile/avatar/' . $filename;
+        return  '/img/profile/avatar';
     }
 
 

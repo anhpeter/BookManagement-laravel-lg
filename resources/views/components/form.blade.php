@@ -54,18 +54,18 @@
                                 <input type="hidden" name="{{ $inputName }}" id="image-text-input"
                                     value="{{ $inputValue }}" />
                             </div>
-                            @if ($hasPicture && $pictureSrc)
-                                <div class="img-container img-container-circle mt-3 position-relative"
-                                    style="width: 200px; height:200px; border-radius: 100px; overflow:hidden">
-                                    <img src="{{ $pictureSrc }}" class="img-fluid form-image" />
-                                    <div class="edit-image-btn rounded rounded-circle"><span
-                                            class="fas fa-image fa-4x text-light"></span>
+                            <div class=" {{ $controller === 'profile' ? 'form-circle-picture ' : '' }}">
+                                @if ($hasPicture && $pictureSrc)
+                                    <div class="img-container">
+                                        <img src="{{ $pictureSrc }}" class="img-fluid form-image" />
+                                        <div class="edit-image-btn"><span class="fas fa-image fa-4x text-light"></span>
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
-                            @if ($hasCropModal)
-                                @include('partials/crop_picture_modal')
-                            @endif
+                                @endif
+                                @if ($hasCropModal)
+                                    @include('partials/crop_picture_modal')
+                                @endif
+                            </div>
                         @break
 
                     @endswitch

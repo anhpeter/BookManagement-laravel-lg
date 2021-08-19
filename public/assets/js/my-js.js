@@ -49,7 +49,7 @@ function setFilterSelect() {
         let key = $(this).attr('name') + "_filter";
         let urlParams = new URLSearchParams(location.search);
         urlParams.set(key, $(this).val());
-        let link = `/admin/${getController()}?${urlParams.toString()}`;
+        let link = `/admin/${getPluralController()}?${urlParams.toString()}`;
         location.href = link;
     });
 }
@@ -62,7 +62,7 @@ function setSearchBar() {
         let value = domSlt.searchInput.val();
         urlParams.set('search_field', key);
         urlParams.set('search_value', value);
-        location.href = `/admin/${getController()}?${urlParams.toString()}`;
+        location.href = `/admin/${getPluralController()}?${urlParams.toString()}`;
     });
 
     domSlt.searchBarOption.click(function (e) {
@@ -123,8 +123,14 @@ function deleteItemHandler() {
 }
 
 function setCropperImage() {
+    let aspectRatio = 1;
+    switch (getController()) {
+        case 'book':
+            aspectRatio = 2 / 3;
+            break;
+    }
     domSlt.image.cropper({
-        aspectRatio: 1 / 1,
+        aspectRatio: aspectRatio,
         background: false,
         autoCropArea: 1,
     });
@@ -132,4 +138,9 @@ function setCropperImage() {
 
 function getController() {
     return domSlt.controllerMeta.attr('content');
+}
+
+function getPluralController() {
+    let controller = getController().replace(/y$/, 'ie');
+    return controller + 's';
 }

@@ -184,8 +184,8 @@ class OrderController extends BaseController
     public function sendMail($item)
     {
         $to_name = $item->user->profile->name;
-        //$to_email = $item->user->email;
-        $to_email = 'peteranh99@gmail.com';
+        $to_email = $item->user->email;
+        //$to_email = 'peteranh99@gmail.com';
 
         Mail::send('emails.order_status', ['order' => $item], function ($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)->subject(MyConfig::getMailData()['name']);

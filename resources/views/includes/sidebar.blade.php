@@ -25,7 +25,7 @@ $controller = $controller ?? '';
     <hr class="sidebar-divider">
 
     @php
-        $manageUserClass = in_array($controller, ['user', 'group']) ? 'show' : '';
+        $manageUserClass = in_array($controller, ['user', 'group', 'profile']) ? 'show' : '';
         $manageProductClass = in_array($controller, ['category', 'book', 'order']) ? 'show' : '';
     @endphp
     <!-- Nav Item - Pages Collapse Menu -->

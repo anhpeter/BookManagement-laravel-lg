@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\Config\MyConfig;
+use App\Common\Helper\FileUpload;
 use App\Common\Helper\Message;
 use App\Models\Author;
 use App\Models\Group;
@@ -117,8 +118,18 @@ class BookController extends BaseController
                 ->withInput();
         }
         $item = $this->getItemFromRequest($request);
+
+        $fileUpload = new FileUpload();
+        $uploadedFilename = $fileUpload->uploadBase64Picture($request->input('picture'), $this->getUploadedFolder(), $request->input('current_picture'));
+        if ($uploadedFilename != null) $item['picture'] = $uploadedFilename;
+
         $affected = $this->mainModel->where('id', $id)->update($item);
         return $this->handleSaveResult($affected);
+    }
+
+    public static function getUploadedFolder()
+    {
+        return  '/img/book/picture';
     }
 
     /**
