@@ -26,14 +26,19 @@
             </div>
         @endif
     @endforeach
-    <div class="mr-3  my-1 d-flex">
-        <div>
-            <span class="filter-label">Created start</span>
-            <div> {!! Form::date('created_at_end', null, ['class' => 'form-control my-1']) !!} </div>
+    @php
+    @endphp
+    @if ($controller === 'order')
+        <div class="mr-3  my-1 d-flex">
+            <div>
+                <span class="filter-label">Created start</span>
+                <div> {!! Form::date('created_at_start', $filters['created_at_start'] ?? now(), ['class' => 'form-control my-1 date-filter', 'max' => $filters['created_at_end']]) !!} </div>
+            </div>
+            <div class="ml-lg-2">
+                <span class="filter-label">Created end</span>
+                <div> {!! Form::date('created_at_end', $filters['created_at_end'] ?? now(), ['class' => 'form-control my-1 date-filter', 'min' => $filters['created_at_start'], 'max'=>date('Y-m-d')]) !!} </div>
+            </div>
         </div>
-        <div class="ml-lg-2">
-            <span class="filter-label">Created end</span>
-            <div> {!! Form::date('created_at_end', null, ['class' => 'form-control my-1']) !!} </div>
-        </div>
-    </div>
+    @endif
+
 </div>

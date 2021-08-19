@@ -7,6 +7,7 @@ use App\Common\Helper\Message;
 use App\Mail\OrderShipped;
 use App\Models\Order as MainModel;
 use App\Models\Order;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -158,6 +159,8 @@ class OrderController extends BaseController
                     'status' => trim($request->query('status_filter', 'all')),
                     'shipping_method' => trim($request->query('shipping_method_filter', 'all')),
                     'payment_method' => trim($request->query('payment_method_filter', 'all')),
+                    'created_at_start' => $request->query('created_at_start_filter', date('Y-m-d', strtotime('last year'))),
+                    'created_at_end' => $request->query('created_at_end_filter', date('Y-m-d')),
                 ],
                 'filterData' => [
                     'status' => MyConfig::getSelectData('status', $this->controller,),

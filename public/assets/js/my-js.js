@@ -29,7 +29,13 @@ let domSlt = {
 
 $(document).ready(function () {
     setupEvents();
-
+    $('.date-filter').change(function (e) {
+        let key = $(this).attr('name') + "_filter";
+        let urlParams = new URLSearchParams(location.search);
+        urlParams.set(key, $(this).val());
+        let link = `/admin/${getPluralController()}?${urlParams.toString()}`;
+        location.href = link;
+    });
 });
 
 function setupEvents() {

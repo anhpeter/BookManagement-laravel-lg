@@ -49,4 +49,8 @@ class MyHelper
         $field = ucfirst($field);
         return $field;
     }
+
+    public static function dateString($date){
+        return date('Y-m-d H:i:s');
+    }
 }
