@@ -7,14 +7,14 @@
             'field' => 'shipping_method',
             'label' => 'Shipping Method',
             'value' => function ($item) {
-                return Str::ucfirst($item->shipping_method) ;
+                return Str::ucfirst($item->shipping_method);
             },
         ],
         [
             'field' => 'payment_method',
             'label' => 'Payment Method',
             'value' => function ($item) {
-                return Str::ucfirst($item->payment_method) ;
+                return Str::ucfirst($item->payment_method);
             },
         ],
         [

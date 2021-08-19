@@ -26,7 +26,8 @@ class OrderController extends BaseController
     {
         $this->setPageParams($request);
         $items = $this->mainModel->listAll($this->pageParams);
-        $countFilters = $this->mainModel->countFilters($this->pageParams);
+        //$countFilters = $this->mainModel->countFilters($this->pageParams);
+        $countFilters = [];
         return view(
             'pages/' . $this->controller . '/index',
             ['items' => $items, 'controller' => $this->controller, 'pageParams' => $this->pageParams, 'countFilters' => $countFilters]

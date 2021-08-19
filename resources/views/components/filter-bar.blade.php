@@ -26,12 +26,14 @@
             </div>
         @endif
     @endforeach
-    <!-- 
-    <div class="mr-3 d-flex align-items-center my-1">
-        <span class="filter-label">GroupId</span>
-
-        
+    <div class="mr-3  my-1 d-flex">
+        <div>
+            <span class="filter-label">Created start</span>
+            <div> {!! Form::date('created_at_end', null, ['class' => 'form-control my-1']) !!} </div>
+        </div>
+        <div class="ml-lg-2">
+            <span class="filter-label">Created end</span>
+            <div> {!! Form::date('created_at_end', null, ['class' => 'form-control my-1']) !!} </div>
+        </div>
     </div>
-     -->
-
 </div>
