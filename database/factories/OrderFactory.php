@@ -35,6 +35,7 @@ class OrderFactory extends Factory
             'phone' => '0886862961',
             'shipping_method' => $shippingMethods[array_rand($shippingMethods, 1)],
             'payment_method' => $paymentMethods[array_rand($paymentMethods, 1)],
+            'created_at'=>$this->faker->dateTimeThisYear(),
         ];
     }
     //$table->id();

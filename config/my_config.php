@@ -142,7 +142,7 @@ return [
             'payment_method' => ['all', 'cod', 'transfer'],
             'shipping_method' => ['all', 'saving', 'fast', 'express'],
             'action' => ['view', 'delete'],
-            'filter' => ['status', 'shipping_method', 'payment_method'],
+            'filter' => ['status', 'shipping_method', 'payment_method', 'created_at_start', 'created_at_end'],
             'sort'   => ['payment_method', 'shipping_method', 'status', 'created_at'],
             'search' => ['all'],
         ],

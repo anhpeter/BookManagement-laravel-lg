@@ -77,7 +77,15 @@ class BaseModel extends Authenticatable
     {
         foreach ($filterParams as $field => $value) {
             if ($this->isFieldBelongTo($field, 'filter')) {
-                if ($value !== 'all') {
+                if (in_array($field, ['created_at_start', 'created_at_end'])) {
+                    if (strpos($field, 'start') !== false) {
+                        //start
+                        $query = $query->where('created_at', '>=', $value);
+                    } else {
+                        //end
+                        $query = $query->where('created_at', '<=', $value);
+                    }
+                } else if ($value !== 'all') {
                     $query = $query->where($field, $value);
                 }
             }

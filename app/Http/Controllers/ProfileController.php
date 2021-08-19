@@ -42,7 +42,6 @@ class ProfileController extends BaseController
      */
     public function create($id)
     {
-        echo $id;
         //$item = new Profile();
         //return view('pages/' . $this->controller . '/form', ['formType' => 'add', 'item' => $item]);
     }
