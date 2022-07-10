@@ -73,9 +73,19 @@ class ProfileController extends BaseController
         $this->runValidate($request)->validate();
         $item = $this->getItemFromRequest($request);
         $item['user_id'] = $request->input('userId');
-        $item = $this->handlePicture($item, $request->input('avatar'));
+        $item = $this->handlePicture($item, $request->input('avatar'), $request->input('current_avatar'));
         $affected = DB::table($this->getTableName())->insert($item);
         return $this->handleSaveResult($affected);
+    }
+
+    private function handlePicture($item, $newPic, $oldPic)
+    {
+        if (!!$newPic) {
+            $fileUpload = new FileUpload();
+            $uploadedFilename = $fileUpload->uploadBase64Picture($newPic, $this->getUploadedFolder(), $oldPic);
+            if ($uploadedFilename != null) $item['avatar'] = $uploadedFilename;
+        }
+        return $item;
     }
 
     /**
